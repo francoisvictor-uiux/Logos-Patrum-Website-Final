@@ -121,9 +121,9 @@ export const ar: Dict = {
     eyebrow: "تجربة البحث",
     /* The break is authored here, not left to the wrap: one clause per line.
        Rendered with whitespace-pre-line by the section. */
-    title: "منصة واحدة لكل رحلة بحثية.\nثلاث ركائز لاكتشاف أعمق.",
+    title: "منصة واحدة لكل رحلة بحثية\nثلاث ركائز لاكتشاف أعمق",
     description:
-      "مساحة عمل متكاملة تجمع دقة التحليل الفيلولوجي، والترجمة السياقية، والروابط بين النصوص — مبنية لدراسة جادّة للتراث المسيحي.",
+      "مساحة عمل متكاملة تجمع دقة التحليل الفيلولوجي، والترجمة السياقية، والروابط بين النصوص — مبنية لدراسة جادّة للتراث المسيحي",
     /* The simplified application surface at the centre of the section. */
     workspace: {
       label: "مساحة العمل",
