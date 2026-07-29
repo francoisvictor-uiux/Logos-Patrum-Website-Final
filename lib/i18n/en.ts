@@ -5,7 +5,24 @@ export const en = {
       "From ancient ink to the smart screen. Read, analyze, translate, and protect the writings of the Church Fathers — Greek and Armenian — with visual grammar analysis, Gemini AI translation, and industrial-grade content security.",
   },
 
+  /* Labels that exist only for assistive tech, shared across sections. */
+  common: {
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    previous: "Previous",
+    next: "Next",
+    mainNav: "Main navigation",
+    footerNav: "Footer",
+  },
+
   nav: {
+    links: [
+      { label: "Platform", href: "#features" },
+      { label: "Features", href: "#story" },
+      { label: "Pricing", href: "#pricing" },
+      { label: "Resources", href: "#news" },
+      { label: "About", href: "#faq" },
+    ],
     features: {
       label: "Capabilities",
       items: [
@@ -48,7 +65,7 @@ export const en = {
     },
     search: "Search",
     login: "Log in",
-    signup: "Try it free",
+    signup: "Start free",
     home: "Home",
   },
 
@@ -59,50 +76,98 @@ export const en = {
   },
 
   hero: {
-    title: "*The writings of the Church Fathers,* seen anew",
+    eyebrow: "An academic platform for the study of Christian heritage",
+    title: "From the original text to deeper study",
     description:
-      "Logos Patrum unites the ancient Christian heritage with modern technology to provide a complete environment for discovering, studying, translating, and analyzing the writings of the Church Fathers — making academic research easier, deeper, and more precise.",
-    primaryCta: "Subscribe now",
-    secondaryCta: "Learn more",
-    imageAlt: "The Logos Patrum interactive reader showing the writings of the Church Fathers with grammatical analysis",
-  },
-
-  trustedBy: {
-    label: "Built for colleges, seminaries, libraries, and research centers",
-    logos: [
-      "St. Macarius Theological Seminary",
-      "Nshan Palanjian Armenian Library",
-      "Alexandria Center for Christian Antiquity",
-      "Cappadocia Research Library",
-      "Antioch School of Theology",
-      "Byzantine Texts Consortium",
-      "Oriental Studies Faculty",
-      "Patriarchal Manuscript Archive",
+      "Explore the Church Fathers in their original languages, compare translations, and analyze texts with advanced tools — one platform built for researchers and scholars.",
+    primaryCta: "Start now",
+    secondaryCta: "Explore the platform",
+    /* Key capabilities — a light row under the CTAs. `icon` keys map to the
+       Phosphor duotone set in components/icons.tsx. */
+    capabilities: [
+      { icon: "magnifyingGlass", label: "Advanced search" },
+      { icon: "bookOpenText", label: "Text comparison" },
+      { icon: "brain", label: "Academic analysis" },
+      { icon: "books", label: "Verified sources" },
     ],
   },
 
+  /* Opening sequence — one word at a time, then it dissolves into the hero. */
+  preloader: {
+    words: ["We Translate", "We Analyze", "We Connect"],
+  },
+
+  heroIntro: {
+    prefix: "We explore",
+    words: [
+      "the original texts.",
+      "the translations.",
+      "knowledge.",
+      "meaning.",
+      "heritage.",
+    ],
+  },
+
+  /* The three verbs are the ones the opening sequence cycles through — the
+     loader states the promise, this section pays it off. Keep the two in sync. */
   pillars: {
-    eyebrow: "What is Logos Patrum",
-    title: "One platform, *three pillars* that rarely meet",
+    eyebrow: "The research experience",
+    title: "One research platform. Three pillars for deeper discovery.",
     description:
-      "Deep philological analysis, context-aware AI translation, and real content protection — combined in a single product built for the study of ancient Christian texts.",
+      "An integrated workspace bringing together philological precision, contextual translation, and the connections between texts — built for the serious study of Christian heritage.",
+    /* The simplified application surface at the centre of the section. */
+    workspace: {
+      label: "Workspace",
+      search: "Search the original texts…",
+      filters: ["Greek", "Armenian", "Syriac"],
+      resultsLabel: "Results",
+      results: [
+        { title: "John 1:1", meta: "Alexandria · 4th c." },
+        { title: "Homilies on John", meta: "Chrysostom · 390" },
+        { title: "Against the Arians", meta: "Athanasius · 340" },
+      ],
+      panels: {
+        translate: "Contextual translation",
+        analyze: "Morphological analysis",
+        connect: "Citation network",
+      },
+    },
     cards: [
       {
-        icon: "analyze",
-        title: "We analyze",
-        desc: "Every word is a rich data element — its part of speech, case, root, and relationships. A smart rule engine evaluates and colors it in real time, so structure is visible at a glance.",
+        num: "01",
+        title: "We Analyze",
+        lead: "A precise anatomy of every word.",
+        desc: "Every source word becomes structured knowledge — morphology, syntax, roots, grammatical forms, and linguistic context.",
       },
       {
-        icon: "translate",
-        title: "We translate",
-        desc: "AI translation and interpretation powered by Gemini, tuned to the theological and historical context of each tradition — not generic translation, but a reading that respects the Fathers.",
+        num: "02",
+        title: "We Translate",
+        lead: "Translation informed by theology.",
+        desc: "Guided by history and ecclesial tradition rather than vocabulary alone — a reading that knows where the text came from.",
       },
       {
-        icon: "shield",
-        title: "We protect",
-        desc: "Industrial-grade protection for your rights: a dynamic watermark carrying each reader's identity, copy and print prevention, and fine-grained permissions (DLP + RBAC).",
+        num: "03",
+        title: "We Connect",
+        lead: "A knowledge network across the centuries.",
+        desc: "Discover citations, shared concepts, and theological relationships across centuries of Christian literature.",
       },
     ],
+    /* Labels inside the miniature previews. */
+    ui: {
+      word: "λόγος",
+      tags: ["Noun", "Nominative", "Masculine", "Genitive"],
+      source: "Greek",
+      target: "English",
+      sourceLine: "Ἐν ἀρχῇ ἦν ὁ λόγος",
+      /* Generic MT rendering vs the received theological reading — the
+         crossfade between the two IS the pitch. */
+      targetGeneric: "In the beginning was the word",
+      targetLine: "In the beginning was the Word",
+      contextLabel: "Theological context",
+      tradition: "Alexandrian tradition",
+      nodes: ["Augustine", "Chrysostom", "Gregory", "Basil"],
+      graph: "Citation network across the Fathers",
+    },
   },
 
   why: {
@@ -280,6 +345,8 @@ export const en = {
   },
 
   testimonials: {
+    previous: "Previous testimonial",
+    next: "Next testimonial",
     eyebrow: "Voices from the field",
     title: "*What early users say* (gathered during our beta)",
     items: [

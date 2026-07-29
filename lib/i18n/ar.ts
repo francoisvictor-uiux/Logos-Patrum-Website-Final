@@ -7,7 +7,24 @@ export const ar: Dict = {
       "من الحبر القديم إلى الشاشة الذكية. اقرأ وحلّل وترجم واحمِ كتابات آباء الكنيسة — يونانية وأرمنية — بمحرك تحليل نحوي بصري، وترجمة Gemini، وحماية محتوى صناعية المستوى.",
   },
 
+  /* Labels that exist only for assistive tech, shared across sections. */
+  common: {
+    openMenu: "افتح القائمة",
+    closeMenu: "أغلق القائمة",
+    previous: "السابق",
+    next: "التالي",
+    mainNav: "التنقل الرئيسي",
+    footerNav: "تذييل الصفحة",
+  },
+
   nav: {
+    links: [
+      { label: "المنصة", href: "#features" },
+      { label: "المميزات", href: "#story" },
+      { label: "الأسعار", href: "#pricing" },
+      { label: "المصادر", href: "#news" },
+      { label: "عن المشروع", href: "#faq" },
+    ],
     features: {
       label: "القدرات",
       items: [
@@ -50,7 +67,7 @@ export const ar: Dict = {
     },
     search: "بحث",
     login: "تسجيل الدخول",
-    signup: "جرّب مجانًا",
+    signup: "ابدأ مجانًا",
     home: "الرئيسية",
   },
 
@@ -60,51 +77,104 @@ export const ar: Dict = {
     href: "#story",
   },
 
+  /* The kashida (ـــ) in the headline and buttons is deliberate letter
+     stretching from the design — keep it in the Arabic copy only. */
   hero: {
-    title: "*كتابات آباء الكنيسة* بمنظور جديد",
+    eyebrow: "منصة أكاديمية لدراسة التراث المسيحي",
+    title: "من النص الأصلي إلى دراسة أعمق",
     description:
-      "يجمع Logos Patrum بين التراث المسيحي القديم والتقنيات الحديثة لتوفر بيئة متكاملة لاكتشاف ودراسة وترجمة وتحليل كتابات آباء الكنيسة، مما يجعل البحث الأكاديمي أكثر سهولة وعمقًا ودقة.",
-    primaryCta: "اشترك الآن",
-    secondaryCta: "المزيد",
-    imageAlt: "العارض التفاعلي في Logos Patrum يعرض كتابات آباء الكنيسة مع التحليل النحوي",
-  },
-
-  trustedBy: {
-    label: "مصمَّمة للكليات والمعاهد والمكتبات ومراكز الأبحاث",
-    logos: [
-      "معهد القديس مقاريوس اللاهوتي",
-      "مكتبة نشان بالانجيان الأرمنية",
-      "مركز الإسكندرية للآثار المسيحية",
-      "مكتبة كبادوكيا للأبحاث",
-      "مدرسة أنطاكية اللاهوتية",
-      "اتحاد النصوص البيزنطية",
-      "قسم الدراسات الشرقية",
-      "الأرشيف البطريركي للمخطوطات",
+      "استكشف كتابات آباء الكنيسة بلغاتها الأصلية، وقارن الترجمات، وحلّل النصوص بأدوات متقدمة — في منصة واحدة صُممت للباحثين والدارسين.",
+    primaryCta: "ابـــــدأ الآن",
+    secondaryCta: "استكشف المنصة",
+    capabilities: [
+      { icon: "magnifyingGlass", label: "بحث متقدم" },
+      { icon: "bookOpenText", label: "مقارنة النصوص" },
+      { icon: "brain", label: "تحليل أكاديمي" },
+      { icon: "books", label: "مصادر موثقة" },
     ],
   },
 
+  /* Opening sequence — one word at a time, then it dissolves into the hero. */
+  preloader: {
+    /* Kashida forms taken verbatim from the Figma comp (node 297:2588) — the
+       tatweel runs and the trailing flourishes on م and ط are the designer's,
+       not improvised. Rendered in the display serif so the swash alternates
+       (swsh) have glyphs to swap in. */
+    words: ["نُتـــرجمــ", "نُــــحـــــلل", "نَـــربـــــطــ"],
+  },
+
+  heroIntro: {
+    prefix: "نستكشف",
+    words: [
+      "النصوص الأصلية.",
+      "الترجمات.",
+      "المعرفة.",
+      "المعاني.",
+      "التراث.",
+    ],
+  },
+
+  /* The three verbs are the ones the opening sequence cycles through, in the
+     same kashida forms — the loader states the promise, this section pays it
+     off. Keep the two in sync. */
   pillars: {
-    eyebrow: "ما هو لوغوس باتروم",
-    title: "منصة واحدة، *وثلاث ركائز* نادرًا ما تجتمع",
+    eyebrow: "تجربة البحث",
+    title: "منصة بحثية واحدة. ثلاث ركائز لاكتشاف أعمق.",
     description:
-      "تحليل فيلولوجي عميق، وترجمة بالذكاء الاصطناعي تراعي السياق، وحماية محتوى حقيقية — مجتمعة في منتج واحد مبني لدراسة النصوص المسيحية القديمة.",
+      "مساحة عمل متكاملة تجمع دقة التحليل الفيلولوجي، والترجمة السياقية، والروابط بين النصوص — مبنية لدراسة جادّة للتراث المسيحي.",
+    /* The simplified application surface at the centre of the section. */
+    workspace: {
+      label: "مساحة العمل",
+      search: "ابحث في النصوص الأصلية…",
+      filters: ["يوناني", "أرمني", "سرياني"],
+      resultsLabel: "النتائج",
+      results: [
+        { title: "إنجيل يوحنا ١:١", meta: "الإسكندرية · القرن الرابع" },
+        { title: "عظات على يوحنا", meta: "ذهبي الفم · ٣٩٠" },
+        { title: "ضد الأريوسيين", meta: "أثناسيوس · ٣٤٠" },
+      ],
+      panels: {
+        translate: "الترجمة السياقية",
+        analyze: "التحليل الصرفي",
+        connect: "شبكة الاقتباسات",
+      },
+    },
     cards: [
       {
-        icon: "analyze",
-        title: "نحلّل",
-        desc: "كل كلمة عنصر بيانات غني — نوعها وحالتها الإعرابية وجذرها وعلاقاتها. يقيّمها محرك قواعد ذكي ويلوّنها لحظيًا، فتُرى بنية النص بلمحة عين.",
+        num: "٠١",
+        title: "نُــــحـــــلل",
+        lead: "تشريح دقيق لكل كلمة.",
+        desc: "تتحوّل كل كلمة في النص الأصلي إلى معرفة مبنية: صرفها، ونحوها، وجذرها، وصيغها، وسياقها اللغوي.",
       },
       {
-        icon: "translate",
-        title: "نترجم",
-        desc: "ترجمة وتفسير بالذكاء الاصطناعي مدعومان بـ Gemini، مضبوطان على السياق اللاهوتي والتاريخي لكل تقليد — لا ترجمة عامة، بل قراءة تحترم الآباء.",
+        num: "٠٢",
+        title: "نُتـــرجمــ",
+        lead: "ترجمة يقودها اللاهوت.",
+        desc: "ترجمة يوجّهها التاريخ والتقليد الكنسي، لا المفردات وحدها — قراءة تعرف من أين جاء النص.",
       },
       {
-        icon: "shield",
-        title: "نحمي",
-        desc: "حماية صناعية المستوى لحقوقك: علامة مائية ديناميكية تحمل هوية كل قارئ، ومنع للنسخ والطباعة، وصلاحيات دقيقة (DLP + RBAC).",
+        num: "٠٣",
+        title: "نَـــربـــــطــ",
+        lead: "شبكة معرفية بين العصور.",
+        desc: "اكتشف الاقتباسات، والمفاهيم المشتركة، والعلاقات اللاهوتية عبر قرون من الأدب المسيحي.",
       },
     ],
+    /* Labels inside the miniature previews. */
+    ui: {
+      word: "λόγος",
+      tags: ["اسم", "مرفوع", "مذكر", "مضاف إليه"],
+      source: "اليونانية",
+      target: "العربية",
+      sourceLine: "Ἐν ἀρχῇ ἦν ὁ λόγος",
+      /* Generic MT rendering vs the received theological reading — the
+         crossfade between the two IS the pitch. */
+      targetGeneric: "في البداية كانت الكلمة",
+      targetLine: "في البدء كان الكلمة",
+      contextLabel: "السياق اللاهوتي",
+      tradition: "التقليد الإسكندري",
+      nodes: ["أوغسطينوس", "ذهبي الفم", "غريغوريوس", "باسيليوس"],
+      graph: "شبكة الاقتباسات بين الآباء",
+    },
   },
 
   why: {
@@ -282,6 +352,8 @@ export const ar: Dict = {
   },
 
   testimonials: {
+    previous: "الشهادة السابقة",
+    next: "الشهادة التالية",
     eyebrow: "أصوات من الميدان",
     title: "*ماذا يقول أوائل المستخدمين* (خلال الإطلاق التجريبي)",
     items: [

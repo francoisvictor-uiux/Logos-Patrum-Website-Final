@@ -4,7 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Card, TwoTone, Chip } from "../ui";
+import { Card, TwoTone, Eyebrow } from "../ui";
 import type { Dict, Locale } from "@/lib/i18n";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -37,11 +37,14 @@ export default function Stats({ dict, locale }: { dict: Dict; locale: Locale }) 
   );
 
   return (
-    <section ref={scope} className="px-6 py-16 sm:py-24">
-      <div className="mx-auto flex w-full max-w-[1080px] flex-col items-center gap-10">
-        <div className="flex flex-col items-center gap-3 text-center" data-reveal>
-          <Chip>{t.eyebrow}</Chip>
-          <h2 className="font-display text-[2rem] leading-[1.12] tracking-[0.01em] text-muted sm:text-heading">
+    <section ref={scope} className="px-5 py-[96px] md:py-[128px] lg:px-8 lg:py-[160px]">
+      <div className="mx-auto flex w-full max-w-[1080px] flex-col items-center gap-[56px] lg:gap-[80px]">
+        <div className="flex flex-col items-center gap-[16px] text-center" data-reveal>
+          <Eyebrow>{t.eyebrow}</Eyebrow>
+          <h2
+            className="text-balance font-display text-[32px] font-bold leading-[1.12] text-muted sm:text-[40px] lg:text-[48px]"
+            style={{ fontFeatureSettings: '"swsh"' }}
+          >
             <TwoTone text={t.title} />
           </h2>
         </div>

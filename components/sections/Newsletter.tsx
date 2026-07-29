@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Section, Card, Button, cn } from "../ui";
+import { Section, Card, Button } from "../ui";
 import { Icon } from "../icons";
+import { cn } from "@/lib/utils";
 import type { Dict } from "@/lib/i18n";
 
 export default function Newsletter({ dict }: { dict: Dict }) {

@@ -9,6 +9,7 @@ import {
     Program,
     RenderTarget as OglRenderTarget,
     Texture,
+    type OGLRenderingContext,
 } from "ogl";
 
 const INTRINSIC_WIDTH = 600;
@@ -169,7 +170,11 @@ void main() {
   vec2 pixelMouse = uMouse * uResolution;
   float dist = length(cellCenter - pixelMouse);
   float spotlight = smoothstep(1200.0, 100.0, dist);
-  float interactiveMultiplier = 0.25 + (0.75 * spotlight);
+  // Ambient floor keeps the dot field readable across the whole canvas —
+  // including before the pointer has ever moved, and on touch devices where
+  // it never will. The cursor still lifts dots, just from a high baseline
+  // rather than out of near-darkness.
+  float interactiveMultiplier = 0.7 + (0.3 * spotlight);
   gray = clamp(gray * interactiveMultiplier, 0.0, 1.0);
 
   float g2 = clamp(gray + uPaletteBias, 0.0, 1.0);
@@ -306,8 +311,24 @@ function deriveFontSettings(
     return { family: fallbackFamily, weight: fallbackWeight, sizePx: fallbackSizePx };
 }
 
+type GlyphGrid = { cols: number; rows: number; count: number };
+
+/* ogl's Texture has no declared teardown method, and which one exists depends
+   on the build — probe for both rather than assuming. */
+function destroyTexture(tex: Texture | null) {
+    if (!tex) return;
+    const disposable = tex as Texture & {
+        destroy?: () => void;
+        delete?: () => void;
+    };
+    try {
+        if (typeof disposable.destroy === "function") disposable.destroy();
+        else if (typeof disposable.delete === "function") disposable.delete();
+    } catch {}
+}
+
 function buildGlyphAtlas(
-    gl: any,
+    gl: OGLRenderingContext,
     characters: string,
     fontFamily: string,
     fontWeight: string | number,
@@ -420,20 +441,20 @@ export default function DottedBackground({
     const effectivePlay = true;
 
     const containerRef = useRef<HTMLDivElement>(null);
-    const perlinProgramRef = useRef<any>(null);
-    const dotProgramRef = useRef<any>(null);
-    const rendererRef = useRef<any>(null);
-    const cameraRef = useRef<any>(null);
-    const perlinMeshRef = useRef<any>(null);
-    const dotMeshRef = useRef<any>(null);
-    const renderTargetRef = useRef<any>(null);
-    const glRef = useRef<any>(null);
+    const perlinProgramRef = useRef<Program | null>(null);
+    const dotProgramRef = useRef<Program | null>(null);
+    const rendererRef = useRef<Renderer | null>(null);
+    const cameraRef = useRef<Camera | null>(null);
+    const perlinMeshRef = useRef<Mesh | null>(null);
+    const dotMeshRef = useRef<Mesh | null>(null);
+    const renderTargetRef = useRef<OglRenderTarget | null>(null);
+    const glRef = useRef<OGLRenderingContext | null>(null);
     const rafIdRef = useRef<number | null>(null);
     const lastTimeRef = useRef(0);
     const isPlayingRef = useRef(effectivePlay);
-    const glyphTextureRef = useRef<any>(null);
-    const glyphGridRef = useRef<any>(null);
-    const dummyGlyphTextureRef = useRef<any>(null);
+    const glyphTextureRef = useRef<Texture | null>(null);
+    const glyphGridRef = useRef<GlyphGrid | null>(null);
+    const dummyGlyphTextureRef = useRef<Texture | null>(null);
 
     const renderOnce = () => {
         const renderer = rendererRef.current;
@@ -682,23 +703,11 @@ export default function DottedBackground({
                 } catch {}
                 resizeObserver = null;
             }
-            if (glyphTextureRef.current) {
-                try {
-                    const tex = glyphTextureRef.current;
-                    if (typeof tex.destroy === "function") tex.destroy();
-                    else if (typeof tex.delete === "function") tex.delete();
-                } catch {}
-                glyphTextureRef.current = null;
-                glyphGridRef.current = null;
-            }
-            if (dummyGlyphTextureRef.current) {
-                try {
-                    const tex = dummyGlyphTextureRef.current;
-                    if (typeof tex.destroy === "function") tex.destroy();
-                    else if (typeof tex.delete === "function") tex.delete();
-                } catch {}
-                dummyGlyphTextureRef.current = null;
-            }
+            destroyTexture(glyphTextureRef.current);
+            glyphTextureRef.current = null;
+            glyphGridRef.current = null;
+            destroyTexture(dummyGlyphTextureRef.current);
+            dummyGlyphTextureRef.current = null;
             if (gl && gl.canvas && gl.canvas.parentElement === container) {
                 container.removeChild(gl.canvas);
             }
@@ -734,15 +743,9 @@ export default function DottedBackground({
                 mapPaletteBiasUiToShader(paletteBias);
 
             if (useGlyphAtlasFlag && glRef.current) {
-                if (glyphTextureRef.current) {
-                    try {
-                        const tex = glyphTextureRef.current;
-                        if (typeof tex.destroy === "function") tex.destroy();
-                        else if (typeof tex.delete === "function") tex.delete();
-                    } catch {}
-                    glyphTextureRef.current = null;
-                    glyphGridRef.current = null;
-                }
+                destroyTexture(glyphTextureRef.current);
+                glyphTextureRef.current = null;
+                glyphGridRef.current = null;
                 try {
                     const gl = glRef.current;
                     const f = deriveFontSettings(fontFamily, fontWeight, fontSizePx);
@@ -795,6 +798,10 @@ export default function DottedBackground({
                 ];
         }
         if (!isPlayingRef.current) renderOnce();
+        // palette / effectiveCharacters / useGlyphAtlasFlag are derived values
+        // rebuilt on every render, so the raw props they come from are listed
+        // instead — depending on the derived ones would re-run this each render.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         effectivePlay,
         frequency,

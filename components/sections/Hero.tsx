@@ -1,86 +1,116 @@
-import Image from "next/image";
-import { Button, TwoTone } from "../ui";
-import RotatingAncientText from "@/components/ui/RotatingAncientText";
-import type { Dict } from "@/lib/i18n";
 import DottedBackground from "@/components/ui/DottedBackground";
+import { CaretCircle, DuotoneIcon, type DuotoneName } from "@/components/icons";
+import { heroShaderColors, surface } from "@/lib/tokens";
+import type { Dict } from "@/lib/i18n";
 
 export default function Hero({ dict }: { dict: Dict }) {
   const t = dict.hero;
   return (
+    /* data-hero* hooks are the reveal targets driven by components/Preloader. */
     <section id="top" className="relative isolate overflow-clip">
-      
+
       {/* Dot Matrix Background */}
-      <div 
-        className="absolute inset-0 -z-10 pointer-events-none" 
+      <div
+        data-hero-shader
+        className="absolute inset-0 -z-10 pointer-events-none"
         aria-hidden="true"
         style={{
-          maskImage: "radial-gradient(ellipse at center, transparent 15%, black 60%)",
-          WebkitMaskImage: "radial-gradient(ellipse at center, transparent 15%, black 60%)"
+          maskImage: "radial-gradient(ellipse at center, transparent 8%, black 45%)",
+          WebkitMaskImage: "radial-gradient(ellipse at center, transparent 8%, black 45%)"
         }}
       >
-        <DottedBackground 
-          bgColor="#ffffff"
+        <DottedBackground
+          bgColor={surface}
           frequency={1.5}
           speed={2}
           cellSize={6}
           gamma={7}
           paletteBias={-5}
-          colors={[
-            "#E7EDF4",
-            "#C9D6F4",
-            "#A4BAEC",
-            "#6F8FDD",
-            "#21386E",
-            "#1C315F",
-            "#17294F",
-            "#121F3D"
-          ]}
+          colors={heroShaderColors}
         />
       </div>
 
-      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1280px] flex-col justify-center px-6 pb-14 pt-[71px]">
-        
+      {/* pt clears the floating navbar (24 + 72) — it no longer takes up flow.
+          pb-80 = the spacing system's highlights → next-section step. */}
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1280px] flex-col justify-center px-5 pb-[80px] pt-[112px] lg:px-8">
+
         {/* Figma Layout */}
         <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto">
-          
-          <div className="flex flex-col gap-[40px] items-center justify-center relative shrink-0 w-full" data-reveal>
-            
-            <div className="flex flex-col gap-[16px] items-center justify-center relative shrink-0 w-full">
 
-              <div className="flex flex-col gap-[32px] items-center justify-center relative shrink-0 w-full">
-                <div className="bg-[#f4f4f5] border border-[#d4d4d8] h-[36px] flex gap-[8px] items-center px-[17px] py-[4px] relative rounded-[100px]" data-reveal-item>
+          {/* Spacing-system ladder: eyebrow —24 (spec says 16; 24 was chosen
+              deliberately)— headline —24— description —48— CTAs —48—
+              feature highlights —80— next section. */}
+          <div className="flex flex-col gap-[48px] items-center justify-center relative shrink-0 w-full">
+
+            <div className="flex flex-col gap-[24px] items-center justify-center relative shrink-0 w-full">
+
+              <div className="flex flex-col gap-[24px] items-center justify-center relative shrink-0 w-full">
+                <div className="bg-chip border border-line-strong min-h-[36px] flex gap-[8px] items-center px-[17px] py-[4px] relative rounded-[100px]" data-hero-eyebrow>
                   <div className="relative flex size-[10px] shrink-0">
-                    <span className="absolute inline-flex h-full w-full animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full bg-[#FFD8BA] opacity-75"></span>
-                    <span className="relative inline-flex size-[10px] rounded-full bg-[#EE8D43]"></span>
+                    <span className="absolute inline-flex h-full w-full animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full bg-live-halo opacity-75"></span>
+                    <span className="relative inline-flex size-[10px] rounded-full bg-live"></span>
                   </div>
-                  <p className="font-display font-medium text-[16px] text-[#71717a] text-center whitespace-nowrap" dir="auto" style={{ fontFeatureSettings: '"swsh"' }}>
-                    منصة أكاديمية لدراسة التراث المسيحي
+                  <p className="font-sans font-semibold text-[16px] leading-[24px] tracking-[0.08em] text-muted-2 text-center text-balance" dir="auto" style={{ fontFeatureSettings: '"swsh"' }}>
+                    {t.eyebrow}
                   </p>
                 </div>
-                
-                <h1 className="font-display font-bold whitespace-nowrap leading-[normal] min-w-full text-[48px] text-[#17294F] text-center" dir="auto" style={{ fontFeatureSettings: '"swsh"' }} data-reveal-item>
-                  من النصوص الأصلية إلى دراســة أعمق
+
+                {/* Arabic holds one line from lg up (rule in globals.css) —
+                    text-balance would otherwise split a near-fit into two even
+                    lines. Phones still wrap naturally. */}
+                <h1 className="font-display font-bold text-balance leading-[1.08] tracking-[-0.03em] max-w-[900px] text-[40px] sm:text-[52px] lg:text-[64px] text-title text-center" dir="auto" style={{ fontFeatureSettings: '"swsh"' }} data-hero-title>
+                  {t.title}
                 </h1>
               </div>
-              
-              <p className="font-sans font-normal text-[20px] text-[#71717a] text-center w-full max-w-[744px] leading-[1.5]" dir="auto" data-reveal-item>
-                استكشف كتابات آباء الكنيسة بلغاتها الأصلية، وقارن الترجمات، وابحث داخل آلاف النصوص، واستفد من أدوات تحليل متقدمة في منصة واحدة صُممت للباحثين والدارسين.
+
+              <p className="font-sans font-normal text-[18px] sm:text-[22px] text-muted text-center w-full max-w-[720px] leading-[1.7]" dir="auto" data-hero-desc>
+                {t.description}
               </p>
 
             </div>
-            
-            <div className="flex flex-wrap gap-[16px] items-center justify-center relative shrink-0 w-full" data-reveal-item>
-              <a href="#pricing" className="bg-[#21386E] flex gap-[16px] items-center justify-center pl-[16px] pr-[24px] py-[12px] h-[56px] rounded-[12px] transition-colors hover:bg-[#17294f]">
-                <span className="font-sans font-medium text-[#fefefe] text-[20px] whitespace-nowrap" style={{ fontFeatureSettings: '"swsh"' }}>
-                  ابـــــدأ الآن
-                </span>
-                <Image src="/images/primary-btn-icon.png" alt="Icon" width={32} height={32} />
-              </a>
-              <a href="#pillars" className="border-2 border-[#21386E] flex h-[56px] items-center justify-center px-[24px] py-[12px] rounded-[12px] transition-colors hover:bg-[#21386E]/5">
-                <span className="font-sans font-medium text-[20px] text-[#21386E] whitespace-nowrap" style={{ fontFeatureSettings: '"swsh"' }}>
-                  تواصـل معـنا
-                </span>
-              </a>
+
+            <div className="flex flex-col gap-[48px] items-center justify-center relative shrink-0 w-full">
+
+              {/* Buttons — 52px tall, 16px / 600, 16px apart. */}
+              <div className="flex flex-wrap gap-[16px] items-center justify-center relative shrink-0 w-full">
+                <a data-hero-cta href="#pricing" className="bg-accent flex gap-[12px] items-center justify-center ps-[24px] pe-[16px] h-[52px] rounded-[12px] transition-colors hover:bg-accent-hover">
+                  <span className="font-sans font-semibold text-on-accent text-[16px] whitespace-nowrap" style={{ fontFeatureSettings: '"swsh"' }}>
+                    {t.primaryCta}
+                  </span>
+                  <CaretCircle className="size-7 shrink-0 text-on-accent" />
+                </a>
+                <a data-hero-cta href="#features" className="border border-accent bg-white/30 backdrop-blur-[2px] flex h-[52px] items-center justify-center px-[24px] rounded-[12px] transition-colors duration-200 hover:bg-chip">
+                  <span className="font-sans font-semibold text-[16px] text-accent whitespace-nowrap" style={{ fontFeatureSettings: '"swsh"' }}>
+                    {t.secondaryCta}
+                  </span>
+                </a>
+              </div>
+
+              {/* Feature highlights — 16px / 500, 32px between items (16px on
+                  each side of the hairline divider). Container-less on purpose:
+                  a quiet extension of the hero copy. */}
+              <ul className="flex flex-wrap items-center justify-center gap-x-[16px] gap-y-[12px] relative shrink-0 w-full">
+                {t.capabilities.map((cap, i) => (
+                  <li key={cap.label} data-hero-feature className="flex items-center gap-x-[16px]">
+                    {i > 0 && (
+                      <span className="hidden h-[14px] w-px shrink-0 bg-line sm:block" aria-hidden="true" />
+                    )}
+                    <span className="group flex items-center gap-[8px] opacity-80 transition-opacity duration-200 ease-out hover:opacity-100">
+                      <DuotoneIcon
+                        name={cap.icon as DuotoneName}
+                        className="size-4 shrink-0 text-accent transition-transform duration-200 ease-out group-hover:-translate-y-[2px]"
+                      />
+                      <span
+                        className="font-sans font-medium text-[16px] leading-none text-gray-700 whitespace-nowrap transition-colors duration-200 ease-out group-hover:text-accent"
+                        style={{ fontFeatureSettings: '"swsh"' }}
+                      >
+                        {cap.label}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
             </div>
 
           </div>

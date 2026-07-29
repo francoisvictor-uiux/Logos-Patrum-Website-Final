@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getDict, isLocale } from "@/lib/i18n";
 import SmoothScroll from "@/components/SmoothScroll";
+import Preloader from "@/components/Preloader";
 import Header from "@/components/Header";
 import Hero from "@/components/sections/Hero";
 import Pillars from "@/components/sections/Pillars";
@@ -33,23 +34,26 @@ export default async function LandingPage({
 
   return (
     <>
+      <Preloader dict={dict} />
       <Header dict={dict} locale={locale} />
       <SmoothScroll>
         <main>
+          {/* Guide narrative: what it is (02) → how it works (03) → why it's
+              different (04) → scale (05) → trust (07) → convert (08+). */}
           <Hero dict={dict} />
-          <HeroIntro />
           <Pillars dict={dict} />
-          <Why dict={dict} />
+          <HeroIntro dict={dict} />
           <Filters dict={dict} />
           <Preview dict={dict} />
           <Features dict={dict} />
           <Workflow dict={dict} />
+          <Why dict={dict} />
           <Story dict={dict} />
           <Security dict={dict} />
           <Stats dict={dict} locale={locale} />
+          <Partners dict={dict} />
           <Testimonials dict={dict} />
           <Pricing dict={dict} />
-          <Partners dict={dict} />
           <News dict={dict} />
           <Faq dict={dict} />
           <Newsletter dict={dict} />

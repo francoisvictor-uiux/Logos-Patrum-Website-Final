@@ -18,7 +18,7 @@ export default function FinalCta({ dict }: { dict: Dict }) {
           className="pointer-events-none absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(70% 90% at 85% 30%, rgba(111,143,221,0.28), transparent 65%), radial-gradient(50% 70% at 15% 100%, rgba(180,83,9,0.22), transparent 65%)",
+              "radial-gradient(70% 90% at 85% 30%, color-mix(in srgb, var(--color-primary-400) 28%, transparent), transparent 65%), radial-gradient(50% 70% at 15% 100%, color-mix(in srgb, var(--color-yellow-800) 22%, transparent), transparent 65%)",
           }}
         />
         <p

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Section, SectionHeading, Card, Button, cn } from "../ui";
+import { Section, SectionHeading, Card, Button } from "../ui";
 import { Icon } from "../icons";
+import { cn } from "@/lib/utils";
 import type { Dict } from "@/lib/i18n";
 
 type Plan = {

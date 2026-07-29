@@ -48,7 +48,7 @@ export default function Footer({ dict, locale }: { dict: Dict; locale: Locale })
           </div>
 
           {/* Link columns */}
-          <nav className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3" aria-label="Footer">
+          <nav className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3" aria-label={dict.common.footerNav}>
             {t.columns.map((col) => (
               <div key={col.title} className="flex flex-col gap-4">
                 <h3 className="text-body text-ink">{col.title}</h3>

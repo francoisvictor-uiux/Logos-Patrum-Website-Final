@@ -16,7 +16,10 @@ export default function Testimonials({ dict }: { dict: Dict }) {
     if (!el) return;
     const card = el.querySelector("li");
     const step = card ? card.clientWidth + 16 : el.clientWidth;
-    el.scrollBy({ left: step * direction, behavior: "smooth" });
+    // scrollBy works on a physical axis: in RTL the rail advances leftwards,
+    // so "next" has to become a negative offset.
+    const sign = getComputedStyle(el).direction === "rtl" ? -1 : 1;
+    el.scrollBy({ left: step * direction * sign, behavior: "smooth" });
   }
 
   return (
@@ -55,18 +58,18 @@ export default function Testimonials({ dict }: { dict: Dict }) {
         <button
           type="button"
           onClick={() => scrollBy(-1)}
-          aria-label="Previous"
+          aria-label={t.previous}
           className="grid size-10 place-items-center rounded-pill bg-ink text-on-dark transition-colors hover:bg-ink/85"
         >
-          <Icon name="arrow" className="size-4 rotate-180" />
+          <Icon name="arrow" className="size-4 rotate-180 rtl:-scale-x-100" />
         </button>
         <button
           type="button"
           onClick={() => scrollBy(1)}
-          aria-label="Next"
+          aria-label={t.next}
           className="grid size-10 place-items-center rounded-pill bg-ink text-on-dark transition-colors hover:bg-ink/85"
         >
-          <Icon name="arrow" className="size-4" />
+          <Icon name="arrow" className="size-4 rtl:-scale-x-100" />
         </button>
       </div>
     </Section>

@@ -83,6 +83,11 @@ export default async function RootLayout({
       <body
         className={`${thmanyahSans.variable} ${thmanyah.variable} ${ebGaramond.variable} ${serto.variable} font-sans bg-page text-ink antialiased selection:bg-bronze-500/30 overflow-x-hidden`}
       >
+        {/* Without JS the opening sequence can never dissolve — drop it so the
+            page is readable rather than sitting behind a white sheet. */}
+        <noscript>
+          <style>{`[data-preloader]{display:none!important}`}</style>
+        </noscript>
         {children}
       </body>
     </html>

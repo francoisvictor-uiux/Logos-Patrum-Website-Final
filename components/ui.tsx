@@ -1,19 +1,5 @@
 import type { ReactNode } from "react";
-
-/* ---------------------------------------------------------------
-   cn — tiny class joiner
-   --------------------------------------------------------------- */
-type ClassArg = string | false | null | undefined | Record<string, boolean>;
-
-export function cn(...args: ClassArg[]) {
-  const out: string[] = [];
-  for (const a of args) {
-    if (!a) continue;
-    if (typeof a === "string") out.push(a);
-    else for (const k in a) if (a[k]) out.push(k);
-  }
-  return out.join(" ");
-}
+import { cn } from "@/lib/utils";
 
 /* ---------------------------------------------------------------
    TwoTone — the comp's signature heading treatment.
@@ -60,6 +46,36 @@ export function Chip({ children, dot = true }: { children: ReactNode; dot?: bool
 }
 
 /* ---------------------------------------------------------------
+   LiveDot — the hero's orange point with a soft ping halo. The one
+   piece of colour every section is allowed: it marks what is alive.
+   --------------------------------------------------------------- */
+export function LiveDot({ className }: { className?: string }) {
+  return (
+    <span className={cn("relative flex size-[8px] shrink-0", className)} aria-hidden>
+      <span className="absolute inline-flex h-full w-full animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full bg-live-halo opacity-75" />
+      <span className="relative inline-flex size-[8px] rounded-full bg-live" />
+    </span>
+  );
+}
+
+/* ---------------------------------------------------------------
+   Eyebrow — design-guide label: 14px / 600 / 0.12em / primary-500,
+   led by the live dot. Replaces the grey chip as the page-wide
+   eyebrow treatment (Arabic zeroes the tracking via globals.css).
+   --------------------------------------------------------------- */
+export function Eyebrow({ children }: { children: ReactNode }) {
+  return (
+    <p
+      dir="auto"
+      className="flex items-center gap-[10px] text-[14px] font-semibold uppercase leading-none tracking-[0.12em] text-navy-500"
+    >
+      <LiveDot />
+      {children}
+    </p>
+  );
+}
+
+/* ---------------------------------------------------------------
    Button — Figma pill, 16px medium, px-16 py-10, radius 100
    primary : inverted (dark on light) — the comp's white-on-dark
    subtle  : chip fill
@@ -85,8 +101,10 @@ export function Button({
   className?: string;
   type?: "button" | "submit";
 } & React.HTMLAttributes<HTMLElement>) {
+  /* Typography system: buttons 52px tall, 24px padding, radius 12,
+     16px / 600. Height comes before any className override. */
   const classes = cn(
-    "inline-flex items-center justify-center gap-2 rounded-pill px-4 py-2.5 text-body font-medium leading-none transition-colors duration-200",
+    "inline-flex h-[52px] items-center justify-center gap-2 rounded-[12px] px-[24px] text-[16px] font-semibold leading-none transition-colors duration-200",
     BUTTON_VARIANTS[variant],
     className
   );
@@ -119,10 +137,15 @@ export function Section({
   contentClassName?: string;
 }) {
   return (
-    <section id={id} className={cn("px-6 py-16 sm:py-24", className)}>
+    /* Spacing system: section padding 96 → 128 → 160, container padding
+       20 mobile / 32 desktop, heading-to-content 96 on desktop. */
+    <section
+      id={id}
+      className={cn("px-5 py-[96px] md:py-[128px] lg:px-8 lg:py-[160px]", className)}
+    >
       <div
         className={cn(
-          "mx-auto flex w-full max-w-[1080px] flex-col items-center gap-10",
+          "mx-auto flex w-full max-w-[1080px] flex-col items-center gap-[56px] lg:gap-[96px]",
           contentClassName
         )}
       >
@@ -153,19 +176,25 @@ export function SectionHeading({
 }) {
   const centered = align === "center";
   return (
+    /* Design-guide ladder: eyebrow —16px— heading —24px— description. */
     <div
       data-reveal
       className={cn(
-        "flex max-w-[680px] flex-col gap-3",
+        "flex max-w-[760px] flex-col gap-[16px]",
         centered ? "items-center text-center" : "items-start text-start"
       )}
     >
-      {eyebrow ? <Chip>{eyebrow}</Chip> : null}
-      <Tag className="text-balance font-display text-[2rem] leading-[1.12] tracking-[0.01em] text-muted sm:text-heading">
+      {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
+      <Tag
+        className="text-balance font-display text-[32px] font-bold leading-[1.12] text-muted sm:text-[40px] lg:text-[48px]"
+        style={{ fontFeatureSettings: '"swsh"' }}
+      >
         <TwoTone text={title} />
       </Tag>
       {description ? (
-        <p className="max-w-[560px] text-body text-muted">{description}</p>
+        <p className="mt-[8px] max-w-[720px] text-[18px] font-normal leading-[1.7] text-muted sm:text-[20px]">
+          {description}
+        </p>
       ) : null}
     </div>
   );
@@ -205,7 +234,8 @@ export function CardText({
 }) {
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
-      <h3 className="text-card-title text-ink">{title}</h3>
+      {/* Typography system: card title 24/600 (24px via the token). */}
+      <h3 className="text-card-title font-semibold text-ink">{title}</h3>
       {desc ? <p className="text-body text-muted">{desc}</p> : null}
     </div>
   );
