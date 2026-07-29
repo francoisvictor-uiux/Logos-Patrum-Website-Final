@@ -30,6 +30,19 @@ export default function Hero({ dict }: { dict: Dict }) {
         />
       </div>
 
+      {/* Bottom blend — eased fade to the surface white so the dot matrix
+          dissolves into the next section instead of ending on a hard edge.
+          Same -z-10 as the shader, later in DOM order, so it paints over the
+          dots but stays behind the content. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[160px] sm:h-[200px]"
+        style={{
+          background:
+            "linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 0%, transparent) 0%, color-mix(in srgb, var(--color-surface) 40%, transparent) 55%, color-mix(in srgb, var(--color-surface) 85%, transparent) 82%, var(--color-surface) 100%)",
+        }}
+      />
+
       {/* pt clears the floating navbar (24 + 72) — it no longer takes up flow.
           pb-80 = the spacing system's highlights → next-section step. */}
       <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1280px] flex-col justify-center px-5 pb-[80px] pt-[112px] lg:px-8">
