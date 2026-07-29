@@ -171,9 +171,8 @@ export const ar: Dict = {
       /* Generic MT rendering vs the received theological reading — the
          crossfade between the two IS the pitch. */
       targetGeneric: "في البداية كانت الكلمة",
-      targetLine: "في البدء كان الكلمة",
+      targetLine: "في البدء كانت الكلمة",
       contextLabel: "السياق اللاهوتي",
-      tradition: "التقليد الإسكندري",
       nodes: ["أوغسطينوس", "ذهبي الفم", "غريغوريوس", "باسيليوس"],
       graph: "شبكة الاقتباسات بين الآباء",
     },

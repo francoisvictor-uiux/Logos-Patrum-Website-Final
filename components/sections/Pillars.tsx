@@ -498,16 +498,6 @@ function Workspace({
               </p>
               <span className="h-px w-full bg-chip" aria-hidden />
               <CrossfadeLine ui={ui} on={shown === 1} className="text-[16px]" />
-              <span
-                dir="auto"
-                className={cn(
-                  "w-fit rounded-full bg-accent-soft px-3 py-1 text-[11px] leading-none text-accent",
-                  "transition-opacity duration-500",
-                  shown === 1 ? "opacity-100" : "opacity-50"
-                )}
-              >
-                {ui.tradition}
-              </span>
             </div>
           </Panel>
 
@@ -726,22 +716,6 @@ function TranslatePreview({ ui, on }: { ui: UI; on: boolean }) {
         </span>
         <CrossfadeLine ui={ui} on={on} className="text-[14px]" />
       </div>
-      <div
-        className={cn(
-          "flex items-center gap-2 transition-all duration-500 ease-out motion-reduce:transform-none",
-          on ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"
-        )}
-      >
-        <span dir="auto" className="text-[10px] uppercase leading-none tracking-[0.1em] text-faint">
-          {ui.contextLabel}
-        </span>
-        <span
-          dir="auto"
-          className="rounded-full bg-accent-soft px-2.5 py-1 text-[11px] leading-none text-accent"
-        >
-          {ui.tradition}
-        </span>
-      </div>
     </div>
   );
 }
@@ -775,8 +749,11 @@ function NodeGraph({
   compact?: boolean;
 }) {
   return (
+    /* The box is padded above and below the diamond: the outer labels sit
+       outside the node geometry, and Arabic descenders drop well below their
+       baseline — a viewBox that ends at the geometry clips them. */
     <svg
-      viewBox="0 0 300 148"
+      viewBox="0 -4 300 162"
       role="img"
       aria-label={label}
       className={cn(

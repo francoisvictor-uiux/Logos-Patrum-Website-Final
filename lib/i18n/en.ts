@@ -166,7 +166,6 @@ export const en = {
       targetGeneric: "In the beginning was the word",
       targetLine: "In the beginning was the Word",
       contextLabel: "Theological context",
-      tradition: "Alexandrian tradition",
       nodes: ["Augustine", "Chrysostom", "Gregory", "Basil"],
       graph: "Citation network across the Fathers",
     },
