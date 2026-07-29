@@ -119,7 +119,9 @@ export const ar: Dict = {
      off. Keep the two in sync. */
   pillars: {
     eyebrow: "تجربة البحث",
-    title: "منصة بحثية واحدة. ثلاث ركائز لاكتشاف أعمق.",
+    /* The break is authored here, not left to the wrap: one clause per line.
+       Rendered with whitespace-pre-line by the section. */
+    title: "منصة واحدة لكل رحلة بحثية.\nثلاث ركائز لاكتشاف أعمق.",
     description:
       "مساحة عمل متكاملة تجمع دقة التحليل الفيلولوجي، والترجمة السياقية، والروابط بين النصوص — مبنية لدراسة جادّة للتراث المسيحي.",
     /* The simplified application surface at the centre of the section. */

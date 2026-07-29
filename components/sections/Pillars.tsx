@@ -34,7 +34,6 @@ export default function Pillars({ dict }: { dict: Dict }) {
   const t = dict.pillars;
   const root = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
-  const story = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
   /* A deliberate pointer beats ambient scroll progress. */
@@ -76,22 +75,10 @@ export default function Pillars({ dict }: { dict: Dict }) {
             )
             .from(q("[data-p-pillar]"), { autoAlpha: 0, y: 32, stagger: 0.08 }, "<0.08");
 
-          /* Scroll-spy: the workspace follows the reader through the story.
-             The range spans workspace + pillars so each stage holds long
-             enough to register. */
-          let last = -1;
-          ScrollTrigger.create({
-            trigger: story.current,
-            start: "top 60%",
-            end: "bottom 70%",
-            onUpdate: ({ progress }) => {
-              const i = Math.min(2, Math.floor(progress * 3));
-              if (i !== last) {
-                last = i;
-                setActive(i);
-              }
-            },
-          });
+          /* The stage used to be driven by a scroll-spy over this range. The
+             workspace now plays itself on a loop (see Workspace), and two
+             drivers on one piece of state only fight — so the demo owns it and
+             a pointer on a pillar still overrides, below. */
 
           /* Parallax — workspace only, fine pointers only. 8px and one degree,
              eased through quickTo so it drifts rather than tracks. */
@@ -147,20 +134,31 @@ export default function Pillars({ dict }: { dict: Dict }) {
       />
 
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center">
-        {/* Eyebrow — the hero's live dot, carried forward. */}
-        <p
+        {/* Eyebrow — the hero's badge carried forward whole, not just its dot:
+            chip fill on a hairline, 10px live point, 16px/600 at 0.08em. The
+            two sides of the fold now open on the same object. (Arabic zeroes
+            the tracking via the tracking-* rule in globals.css.) */}
+        <div
           data-p-eyebrow
-          dir="auto"
-          className="mb-[16px] flex items-center gap-[10px] text-[14px] font-semibold uppercase leading-none tracking-[0.12em] text-accent"
+          className="mb-[16px] flex min-h-[36px] items-center gap-[8px] rounded-[100px] border border-line-strong bg-chip px-[17px] py-[4px]"
         >
-          <LiveDot />
-          {t.eyebrow}
-        </p>
+          <LiveDot className="size-[10px] [&>span]:size-[10px]" />
+          <p
+            dir="auto"
+            className="text-balance text-center font-sans text-[16px] font-semibold leading-[24px] tracking-[0.08em] text-muted-2"
+            style={{ fontFeatureSettings: '"swsh"' }}
+          >
+            {t.eyebrow}
+          </p>
+        </div>
 
+        {/* whitespace-pre-line, not text-balance: the clause break lives in the
+            translation so both scripts land the same two lines. Each line still
+            wraps on its own if the viewport is too narrow to hold it. */}
         <h2
           data-p-title
           dir="auto"
-          className="mb-[24px] max-w-[760px] text-balance text-center font-display text-[32px] font-bold leading-[1.12] text-title sm:text-[40px] lg:text-[48px]"
+          className="mb-[24px] max-w-[760px] whitespace-pre-line text-center font-display text-[32px] font-bold leading-[1.12] text-title sm:text-[40px] lg:text-[48px]"
           style={{ fontFeatureSettings: '"swsh"' }}
         >
           {t.title}
@@ -174,9 +172,9 @@ export default function Pillars({ dict }: { dict: Dict }) {
           {t.description}
         </p>
 
-        {/* Workspace + pillars share one wrapper: the scroll-spy range. */}
-        <div ref={story} className="flex w-full flex-col items-center">
-          <Workspace ref={stage} ws={t.workspace} ui={t.ui} shown={shown} />
+        {/* Workspace + pillars share one wrapper. */}
+        <div className="flex w-full flex-col items-center">
+          <Workspace ref={stage} ws={t.workspace} ui={t.ui} shown={shown} onStage={setActive} />
 
           {/* Three editorial columns — no cards, no fills, no borders. */}
           {/* Spacing system: 3-column grid gap 32, workspace → pillars 96. */}
@@ -194,16 +192,17 @@ export default function Pillars({ dict }: { dict: Dict }) {
                     name={PILLAR_ICONS[i]}
                     className="size-5 shrink-0 text-accent transition-transform duration-[220ms] ease-out group-hover:scale-[1.06] motion-reduce:transform-none"
                   />
-                  <span className="text-[13px] font-medium leading-none tracking-[0.08em] text-faint">
-                    {card.num}
-                  </span>
-                  {/* The live dot walks the row as the story advances. */}
+                  {/* The live dot walks the row as the demo advances, and leads
+                      the number — right of it in Arabic, left of it in English. */}
                   <LiveDot
                     className={cn(
                       "transition-opacity duration-300",
                       shown === i ? "opacity-100" : "opacity-0"
                     )}
                   />
+                  <span className="text-[13px] font-medium leading-none tracking-[0.08em] text-faint">
+                    {card.num}
+                  </span>
                 </div>
 
                 {/* Title —12— body, per the card rhythm. */}
@@ -231,42 +230,226 @@ export default function Pillars({ dict }: { dict: Dict }) {
 }
 
 /* ===============================================================
-   WORKSPACE — a simplified floating application surface. No device
-   frame, no browser chrome, no screenshot.
+   WORKSPACE — a simplified application surface that plays itself.
+
+   Not a screenshot and not a video file: a scripted pointer walks the
+   real markup — types the query, picks a filter, opens a result, then
+   moves through the three panels — and loops. The same DOM answers to a
+   real pointer, so nothing has to be swapped out when the reader takes
+   over. Under reduced motion the cursor never appears and the surface
+   is simply the still it always was.
    =============================================================== */
 function Workspace({
   ref,
   ws,
   ui,
   shown,
+  onStage,
 }: {
-  ref: React.Ref<HTMLDivElement>;
+  ref: React.RefObject<HTMLDivElement | null>;
   ws: Pillars["workspace"];
   ui: UI;
   shown: number;
+  onStage: (i: number) => void;
 }) {
+  const cursor = useRef<HTMLDivElement>(null);
+  const ring = useRef<HTMLSpanElement>(null);
+  const field = useRef<HTMLDivElement>(null);
+  const hint = useRef<HTMLSpanElement>(null);
+  const typed = useRef<HTMLSpanElement>(null);
+  const caret = useRef<HTMLSpanElement>(null);
+  const chips = useRef<(HTMLSpanElement | null)[]>([]);
+  const rows = useRef<(HTMLDivElement | null)[]>([]);
+  /* Indexed by stage, not by DOM order: 0 analyse, 1 translate, 2 connect. */
+  const panels = useRef<(HTMLElement | null)[]>([]);
+
+  const [chip, setChip] = useState(0);
+  const [row, setRow] = useState(0);
+
+  useGSAP(
+    () => {
+      const root = ref.current;
+      const cur = cursor.current;
+      if (!root || !cur) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          motion: "(prefers-reduced-motion: no-preference)",
+          /* Listed so GSAP rebuilds the script when a stop appears or
+             disappears — the filters arrive at sm, the results rail at lg. */
+          chipsUp: "(min-width: 640px)",
+          railUp: "(min-width: 1024px)",
+        },
+        (ctx) => {
+          if (!ctx.conditions?.motion) return;
+
+          /* Local coordinates read off the layout, not off screen rects: the
+             stage carries a parallax rotation and the cursor lives inside it,
+             so rects are projected where offsets are not. */
+          const at = (el: HTMLElement) => ({
+            x: el.offsetLeft + el.offsetWidth / 2,
+            y: el.offsetTop + el.offsetHeight / 2,
+          });
+          /* offsetParent is null exactly when a breakpoint has display:none'd
+             the stop — the cursor skips it rather than diving to the origin. */
+          const shows = (el: HTMLElement | null): el is HTMLElement => !!el?.offsetParent;
+
+          const rtl = getComputedStyle(root).direction === "rtl";
+          const query = ui.word;
+
+          const clear = () => {
+            setChip(-1);
+            setRow(-1);
+            onStage(-1);
+            if (typed.current) typed.current.textContent = "";
+          };
+
+          const tl = gsap.timeline({
+            paused: true,
+            repeat: -1,
+            repeatDelay: 1,
+            /* Re-reads every function-based value each loop, so a resize
+               between passes lands the cursor on the new layout. */
+            repeatRefresh: true,
+            defaults: { ease: "power2.inOut" },
+          });
+
+          const hold = (duration: number) => tl.to({}, { duration });
+
+          /* Glide, dip, ring — one press. The action fires on the dip so the
+             panel answers the click rather than trailing it. */
+          const visit = (el: HTMLElement | null, run?: () => void, after = 0.7) => {
+            if (!shows(el)) return;
+            tl.to(cur, { duration: 0.75, x: () => at(el).x, y: () => at(el).y }, "+=0.12")
+              .to(cur, { scale: 0.82, duration: 0.12, ease: "power2.out" })
+              .fromTo(
+                ring.current,
+                { scale: 0.3, autoAlpha: 0.5 },
+                { scale: 2.6, autoAlpha: 0, duration: 0.6, ease: "power2.out" },
+                "<"
+              )
+              .to(cur, { scale: 1, duration: 0.22 }, "<0.1");
+            if (run) tl.call(run, undefined, "<");
+            hold(after);
+          };
+
+          tl.call(clear)
+            .set([hint.current, caret.current], { autoAlpha: 1 })
+            .set(caret.current, { autoAlpha: 0 })
+            /* Enters from the reader's side of the surface. */
+            .fromTo(
+              cur,
+              {
+                autoAlpha: 0,
+                scale: 1,
+                x: () => root.offsetWidth * (rtl ? 0.84 : 0.16),
+                y: () => root.offsetHeight * 0.86,
+              },
+              { autoAlpha: 1, duration: 0.45, ease: "power2.out" }
+            );
+
+          // 1 — the query, typed into the real field.
+          if (shows(field.current)) {
+            visit(field.current, undefined, 0.15);
+            tl.set(hint.current, { autoAlpha: 0 }).set(caret.current, { autoAlpha: 1 });
+            const t = { i: 0 };
+            tl.fromTo(
+              t,
+              { i: 0 },
+              {
+                i: query.length,
+                duration: query.length * 0.11,
+                ease: "none",
+                onUpdate: () => {
+                  if (typed.current) {
+                    typed.current.textContent = query.slice(0, Math.round(t.i));
+                  }
+                },
+              }
+            );
+            hold(0.6);
+          }
+
+          // 2 — narrow it to the source language.
+          visit(chips.current[0], () => setChip(0), 0.5);
+
+          // 3 — open a result; the morphology answers.
+          visit(rows.current[0], () => {
+            setRow(0);
+            onStage(0);
+          }, 1.4);
+
+          // 4 — the received reading.
+          visit(panels.current[1], () => onStage(1), 1.6);
+
+          // 5 — and where it is cited.
+          visit(panels.current[2], () => onStage(2), 1.6);
+
+          tl.to(cur, { autoAlpha: 0, duration: 0.4, ease: "power2.in" });
+          hold(0.5);
+
+          /* A loop nobody is looking at is just a heater. onToggle only reports
+             transitions, so onRefresh seeds the state — otherwise landing with
+             the section already on screen leaves the demo parked on frame one. */
+          const playing = (self: ScrollTrigger) => (self.isActive ? tl.play() : tl.pause());
+          ScrollTrigger.create({
+            trigger: root,
+            start: "top 92%",
+            end: "bottom 8%",
+            onToggle: playing,
+            onRefresh: playing,
+          });
+
+          return () => {
+            tl.kill();
+          };
+        }
+      );
+    },
+    { scope: ref }
+  );
+
   return (
     <div
       ref={ref}
       aria-label={ws.label}
-      className="w-full max-w-[960px] rounded-[24px] border border-line bg-white p-3 shadow-workspace lg:min-h-[560px] lg:p-4"
+      /* relative: the offsetParent every stop is measured against, and the
+         containing block for the cursor. */
+      className="relative w-full max-w-[960px] rounded-[24px] border border-line bg-white p-3 lg:min-h-[560px] lg:p-4"
     >
       {/* Toolbar */}
       <div className="flex items-center gap-3 border-b border-gray-100 px-2 pb-3">
-        <div className="flex flex-1 items-center gap-2 rounded-[10px] bg-chip px-3 py-2">
+        <div ref={field} className="flex flex-1 items-center gap-2 rounded-[10px] bg-chip px-3 py-2">
           <Icon name="search" className="size-4 shrink-0 text-faint" />
-          <span dir="auto" className="truncate text-[13px] leading-none text-faint">
-            {ws.search}
+          {/* The placeholder is taken out of flow so the typed query starts at
+              the head of the line in either direction. */}
+          <span className="relative flex min-w-0 flex-1 items-center text-[13px] leading-none">
+            <span
+              ref={hint}
+              dir="auto"
+              className="absolute inset-0 flex items-center truncate text-faint"
+            >
+              {ws.search}
+            </span>
+            {/* Written by the demo, never by React — left empty so a re-render
+                cannot wipe what has been typed so far. */}
+            <span ref={typed} dir="ltr" className="font-greek text-title" />
+            <span ref={caret} className="ms-[2px] inline-block h-[13px] w-px bg-accent opacity-0" />
           </span>
         </div>
         <div className="hidden items-center gap-2 sm:flex">
           {ws.filters.map((f, i) => (
             <span
               key={f}
+              ref={(el) => {
+                chips.current[i] = el;
+              }}
               dir="auto"
               className={cn(
-                "rounded-full px-3 py-1.5 text-[12px] leading-none",
-                i === 0 ? "bg-accent text-white" : "bg-chip text-muted-2"
+                "rounded-full px-3 py-1.5 text-[12px] leading-none transition-colors duration-300",
+                chip === i ? "bg-accent text-white" : "bg-chip text-muted-2"
               )}
             >
               {f}
@@ -284,10 +467,13 @@ function Workspace({
           {ws.results.map((r, i) => (
             <div
               key={r.title}
+              ref={(el) => {
+                rows.current[i] = el;
+              }}
               dir="auto"
               className={cn(
-                "flex flex-col gap-1 rounded-[12px] px-3 py-2.5",
-                i === 0 && "bg-accent-soft"
+                "flex flex-col gap-1 rounded-[12px] px-3 py-2.5 transition-colors duration-300",
+                row === i && "bg-accent-soft"
               )}
             >
               <span className="text-[13px] font-medium leading-none text-gray-700">{r.title}</span>
@@ -298,7 +484,14 @@ function Workspace({
 
         <div className="flex flex-1 flex-col gap-3">
           {/* Translation panel — the crossfade from generic to received reading */}
-          <Panel title={ws.panels.translate} active={shown === 1} className="flex-1">
+          <Panel
+            ref={(el) => {
+              panels.current[1] = el;
+            }}
+            title={ws.panels.translate}
+            active={shown === 1}
+            className="flex-1"
+          >
             <div className="flex flex-col gap-3">
               <p dir="ltr" className="font-greek text-[17px] leading-relaxed text-gray-700">
                 {ui.sourceLine}
@@ -320,7 +513,14 @@ function Workspace({
 
           <div className="flex flex-col gap-3 sm:flex-row lg:h-[210px]">
             {/* Analysis panel — morphology lights up */}
-            <Panel title={ws.panels.analyze} active={shown === 0} className="flex-1">
+            <Panel
+              ref={(el) => {
+                panels.current[0] = el;
+              }}
+              title={ws.panels.analyze}
+              active={shown === 0}
+              className="flex-1"
+            >
               <div className="flex flex-col items-start gap-3">
                 <span
                   dir="ltr"
@@ -333,11 +533,46 @@ function Workspace({
             </Panel>
 
             {/* Connections panel — the graph expands */}
-            <Panel title={ws.panels.connect} active={shown === 2} className="flex-1">
+            <Panel
+              ref={(el) => {
+                panels.current[2] = el;
+              }}
+              title={ws.panels.connect}
+              active={shown === 2}
+              className="flex-1"
+            >
               <NodeGraph labels={ui.nodes} label={ui.graph} on={shown === 2} compact />
             </Panel>
           </div>
         </div>
+      </div>
+
+      {/* The playback cursor. Decorative: the surface is fully described by
+          its own markup, so nothing here is announced. */}
+      <div
+        ref={cursor}
+        aria-hidden
+        className="pointer-events-none absolute left-0 top-0 z-20 opacity-0"
+      >
+        <span
+          ref={ring}
+          className="absolute -left-[14px] -top-[14px] block size-[28px] rounded-full border border-accent opacity-0"
+        />
+        <svg
+          width="20"
+          height="22"
+          viewBox="0 0 20 22"
+          fill="none"
+          className="relative -translate-x-px -translate-y-px"
+        >
+          <path
+            d="M1.5 1.2 L1.5 15.8 L5.6 12.1 L8.2 17.9 L11.1 16.6 L8.5 10.9 L14.2 10.6 Z"
+            className="fill-accent"
+            stroke="#fff"
+            strokeWidth="1.3"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
     </div>
   );
@@ -346,11 +581,13 @@ function Workspace({
 /* A workspace panel. The active stage gets the hero's live dot; the
    others stay legible but recede. */
 function Panel({
+  ref,
   title,
   active,
   className,
   children,
 }: {
+  ref?: React.Ref<HTMLElement>;
   title: string;
   active: boolean;
   className?: string;
@@ -358,6 +595,7 @@ function Panel({
 }) {
   return (
     <section
+      ref={ref}
       className={cn(
         "rounded-[16px] border p-4 transition-[opacity,border-color,background-color] duration-500 ease-out",
         active
@@ -366,6 +604,9 @@ function Panel({
         className
       )}
     >
+      {/* The dot leads the label, so it sits to the right of the word in Arabic
+          and to the left in English. Always rendered, only faded — appearing
+          into the flow would shunt the label sideways on every stage change. */}
       <h4
         dir="auto"
         className={cn(
@@ -373,8 +614,13 @@ function Panel({
           active ? "text-accent" : "text-faint"
         )}
       >
+        <LiveDot
+          className={cn(
+            "size-[6px] transition-opacity duration-500 [&>span]:size-[6px]",
+            active ? "opacity-100" : "opacity-0"
+          )}
+        />
         {title}
-        {active && <LiveDot className="size-[6px] [&>span]:size-[6px]" />}
       </h4>
       {children}
     </section>
