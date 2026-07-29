@@ -114,7 +114,7 @@ export const en = {
     eyebrow: "The research experience",
     /* The break is authored here, not left to the wrap: one clause per line.
        Rendered with whitespace-pre-line by the section. */
-    title: "One platform for the whole research journey.\nThree pillars for deeper discovery.",
+    title: "One platform, every research journey.\nThree pillars for deeper discovery.",
     description:
       "An integrated workspace bringing together philological precision, contextual translation, and the connections between texts — built for the serious study of Christian heritage.",
     /* The simplified application surface at the centre of the section. */

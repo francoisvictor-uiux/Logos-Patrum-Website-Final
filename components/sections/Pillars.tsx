@@ -154,11 +154,13 @@ export default function Pillars({ dict }: { dict: Dict }) {
 
         {/* whitespace-pre-line, not text-balance: the clause break lives in the
             translation so both scripts land the same two lines. Each line still
-            wraps on its own if the viewport is too narrow to hold it. */}
+            wraps on its own if the viewport is too narrow to hold it — which is
+            why the cap opens to 900 at the 48px step, where the longer clause
+            measures 767px and 760 would have folded it. */}
         <h2
           data-p-title
           dir="auto"
-          className="mb-[24px] max-w-[760px] whitespace-pre-line text-center font-display text-[32px] font-bold leading-[1.12] text-title sm:text-[40px] lg:text-[48px]"
+          className="mb-[24px] max-w-[760px] whitespace-pre-line text-center font-display text-[32px] font-bold leading-[1.12] text-title sm:text-[40px] lg:max-w-[900px] lg:text-[48px]"
           style={{ fontFeatureSettings: '"swsh"' }}
         >
           {t.title}
