@@ -298,6 +298,141 @@ export const en = {
     ],
   },
 
+  /* ---------------------------------------------------------------
+     05 · From question to discovery.
+
+     Section 03 shows what the workspace does; this one shows what it
+     is like to use. Six questions, asked the way a scholar actually
+     asks them, and the answer each one opens. No new features — the
+     same product, told as a story.
+
+     `questions` and `steps` are index-matched to the six states, and
+     both are matched to the panels in `ui`. Adding a seventh question
+     means adding a seventh step and a seventh panel; the section
+     reads the length of `questions` for everything else. */
+  journey: {
+    eyebrow: "Research journey",
+    title: "Every great discovery begins with *one question*.",
+    description:
+      "Follow a complete research journey — from a single word to theological context, historical connections, and related sources — all within one intelligent workspace.",
+
+    /* One per state, in scroll order. Kept short: this is display type
+       at 56px and a second line halves its impact. */
+    questions: [
+      "How was λόγος translated?",
+      "Where else does this word appear?",
+      "How did Origen interpret it?",
+      "How does Athanasius use it?",
+      "What is its grammatical structure?",
+      "What theological ideas are connected to it?",
+    ],
+
+    /* The rail under the surface — where the reader is, and what the
+       platform is doing about it. */
+    steps: [
+      { title: "Translate", desc: "Greek, English and Arabic against one another." },
+      { title: "Trace", desc: "Every other place the word is written." },
+      { title: "Interpret", desc: "What a Father made of it, in his own work." },
+      { title: "Compare", desc: "How the reading travels between them." },
+      { title: "Parse", desc: "The word down to its root and its case." },
+      { title: "Contextualise", desc: "The ideas the word carries with it." },
+    ],
+
+    ui: {
+      label: "The Logos Patrum research workspace",
+      search: "Search the original texts…",
+      query: "λόγος",
+      /* Counted up as the surface arrives. */
+      count: 1284,
+      countLabel: "occurrences",
+
+      readingLabel: "John 1:1",
+      readingMeta: "Alexandria · 4th century",
+      /* Two occurrences of the word: the first is the subject of every
+         panel, the second lights only when the search widens. */
+      passage: "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν.",
+      word: "λόγος",
+
+      /* State 1 — the readings. The middle line is the highlighted one. */
+      translateLabel: "Translation",
+      translations: [
+        { lang: "Greek", text: "Ἐν ἀρχῇ ἦν ὁ λόγος" },
+        { lang: "English", text: "In the beginning was the Word" },
+        { lang: "Arabic", text: "في البدء كان الكلمة" },
+      ],
+
+      /* State 2 — where else it is written. Real phrases, in the Greek. */
+      crossLabel: "Cross references",
+      crossCaption: "Where else it appears",
+      cross: [
+        { ref: "John 1:14", source: "Gospel of John", snippet: "καὶ ὁ λόγος σὰρξ ἐγένετο" },
+        { ref: "1 John 1:1", source: "First Epistle", snippet: "περὶ τοῦ λόγου τῆς ζωῆς" },
+        { ref: "Hebrews 4:12", source: "To the Hebrews", snippet: "ζῶν γὰρ ὁ λόγος τοῦ θεοῦ" },
+        { ref: "Revelation 19:13", source: "Apocalypse", snippet: "ὁ λόγος τοῦ θεοῦ" },
+      ],
+
+      /* States 3 and 4 — the Fathers. The panel stays; the highlight
+         moves from Origen to Athanasius as the question changes, which
+         is the whole point of showing two of them.
+
+         `text` is a summary of each Father's reading, not a quotation:
+         it is set without quotation marks for that reason. Replace with
+         sourced excerpts before launch if the marketing copy needs
+         them. */
+      fathersLabel: "Church Fathers",
+      fathersCaption: "Who reads this word, and how",
+      fathers: [
+        {
+          name: "Origen",
+          work: "Commentary on John",
+          era: "Alexandria · c. 230",
+          text: "Reads the Word as the living Reason in whom all things hold together — not a sound that passes, but the one through whom the Father is known.",
+        },
+        {
+          name: "Athanasius",
+          work: "On the Incarnation",
+          era: "Alexandria · c. 318",
+          text: "For He was made man that we might be made god — the Word takes a body of our kind so that our kind might be carried back into the Father's likeness.",
+        },
+        {
+          name: "John Chrysostom",
+          work: "Homilies on John",
+          era: "Antioch · 390",
+          text: "Presses the verb: John writes ἦν, was, and not ἐγένετο, came to be — what has no beginning cannot be counted among things made.",
+        },
+      ],
+
+      /* State 4 — the graph over the whole surface. Labels are
+         index-matched to GRAPH_NODES in WorkspaceDemo. */
+      graphLabel: "Knowledge graph",
+      graphCaption: "Authors and concepts, connected",
+      nodes: ["λόγος", "John 1:1", "Eternity", "Athanasius", "Origen", "On the Incarnation"],
+
+      /* State 5 — the word comes apart. */
+      morphLabel: "Morphology",
+      morph: [
+        { label: "Root", value: "λεγ-" },
+        { label: "Grammar", value: "Noun · 2nd declension" },
+        { label: "Case", value: "Nominative" },
+        { label: "Gender", value: "Masculine" },
+        { label: "Syntax", value: "Subject of ἦν" },
+      ],
+
+      /* State 6 — what the word carries. */
+      notesLabel: "Theological context",
+      note: "In the Alexandrian reading λόγος is not speech but the eternal Reason of God, which is why John writes ἦν rather than ἐγένετο. The distinction is small in Greek and carries the whole Nicene argument.",
+      conceptsLabel: "Connected ideas",
+      concepts: ["Eternal generation", "Pre-existence", "Incarnation", "Nicene Christology"],
+    },
+
+    /* The close — the surface pulls back and leaves one line. */
+    outro: {
+      statement: "Every answer begins with a question.",
+      cta: "Start yours with Logos Patrum.",
+      scroll: "Keep reading",
+    },
+  },
+
   preview: {
     eyebrow: "See it work",
     title: "The original and the translation, *side by side*",

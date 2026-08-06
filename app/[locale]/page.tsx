@@ -8,6 +8,7 @@ import Pillars from "@/components/sections/Pillars";
 import Workspace from "@/components/sections/Workspace";
 import Why from "@/components/sections/Why";
 import Library from "@/components/sections/Library";
+import ResearchJourney from "@/components/sections/ResearchJourney";
 import Preview from "@/components/sections/Preview";
 import Features from "@/components/sections/Features";
 import Workflow from "@/components/sections/Workflow";
@@ -38,12 +39,20 @@ export default async function LandingPage({
       <Header dict={dict} locale={locale} />
       <SmoothScroll>
         <main>
-          {/* Guide narrative: what it is (02) → how it works (03) → why it's
-              different (04) → scale (05) → trust (07) → convert (08+). */}
+          {/* Guide narrative: what it is (02) → how it works (03) → what is in
+              it (04) → what using it is like (05) → why it's different →
+              trust → convert.
+
+              03 and 05 both show the workspace, and on purpose: 03 is the
+              tour, 05 is the story. The tour earns the reader's belief that
+              the parts exist; the story shows what it feels like to move
+              between them. 04 sits between the two so the second surface
+              arrives as a return rather than as a repeat. */}
           <Hero dict={dict} />
           <Pillars dict={dict} />
           <Workspace dict={dict} />
           <Library dict={dict} locale={locale} />
+          <ResearchJourney dict={dict} locale={locale} />
           <Preview dict={dict} />
           <Features dict={dict} />
           <Workflow dict={dict} />

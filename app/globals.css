@@ -510,6 +510,25 @@ html[lang="en"] main p:not([class*="text-center"]) {
   }
 }
 
+/* ==========================================================
+   SCROLL CUE — the arrow that closes section 05.
+
+   A 6px drift, not a bounce: it has to read as an invitation to
+   keep going rather than as something demanding to be clicked.
+   Guarded by motion-reduce at the call site.
+   ========================================================== */
+@keyframes lp-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
 /* Greek key (meander) rule — retained brand texture */
 .meander {
   height: 10px;
