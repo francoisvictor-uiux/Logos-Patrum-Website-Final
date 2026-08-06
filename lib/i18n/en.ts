@@ -26,11 +26,11 @@ export const en = {
     features: {
       label: "Capabilities",
       items: [
-        { title: "Visual Grammar Analysis", desc: "8 live filter categories", href: "#filters" },
+        { title: "Visual Grammar Analysis", desc: "8 live filter categories", href: "#workspace" },
         { title: "AI Translation", desc: "Gemini, tuned per tradition", href: "#preview" },
         { title: "Theological Lexicon", desc: "BDAG · LSJ · Lampe, in-text", href: "#features" },
         { title: "Library & OCR", desc: "Digitize scanned manuscripts", href: "#features" },
-        { title: "Custom Rule Builder", desc: "Program your own analysis", href: "#filters" },
+        { title: "Custom Rule Builder", desc: "Program your own analysis", href: "#features" },
         { title: "Security & Protection", desc: "Watermarking, DLP, RBAC", href: "#security" },
       ],
     },
@@ -117,58 +117,96 @@ export const en = {
     title: "One platform, every research journey.\nThree pillars for deeper discovery.",
     description:
       "An integrated workspace bringing together philological precision, contextual translation, and the connections between texts — built for the serious study of Christian heritage.",
-    /* The simplified application surface at the centre of the section. */
-    workspace: {
-      label: "Workspace",
-      search: "Search the original texts…",
-      filters: ["Greek", "Armenian", "Syriac"],
-      resultsLabel: "Results",
-      results: [
-        { title: "John 1:1", meta: "Alexandria · 4th c." },
-        { title: "Homilies on John", meta: "Chrysostom · 390" },
-        { title: "Against the Arians", meta: "Athanasius · 340" },
-      ],
-      panels: {
-        translate: "Contextual translation",
-        analyze: "Morphological analysis",
-        connect: "Citation network",
-      },
-    },
+    /* Card order is the loader's — translate, analyse, connect — and the STEPS
+       table in components/sections/Pillars.tsx runs parallel to it. */
     cards: [
       {
-        num: "01",
-        title: "We Analyze",
-        lead: "A precise anatomy of every word.",
-        desc: "Every source word becomes structured knowledge — morphology, syntax, roots, grammatical forms, and linguistic context.",
-      },
-      {
-        num: "02",
         title: "We Translate",
         lead: "Translation informed by theology.",
         desc: "Guided by history and ecclesial tradition rather than vocabulary alone — a reading that knows where the text came from.",
       },
       {
-        num: "03",
+        title: "We Analyze",
+        lead: "A precise anatomy of every word.",
+        desc: "Every source word becomes structured knowledge — morphology, syntax, roots, grammatical forms, and linguistic context.",
+      },
+      {
         title: "We Connect",
         lead: "A knowledge network across the centuries.",
         desc: "Discover citations, shared concepts, and theological relationships across centuries of Christian literature.",
       },
     ],
-    /* Labels inside the miniature previews. */
+    /* The material each step demo is built from. */
     ui: {
       word: "λόγος",
       tags: ["Noun", "Nominative", "Masculine", "Genitive"],
       source: "Greek",
       target: "English",
       sourceLine: "Ἐν ἀρχῇ ἦν ὁ λόγος",
-      /* Generic MT rendering vs the received theological reading — the
-         crossfade between the two IS the pitch. */
-      targetGeneric: "In the beginning was the word",
+      /* The received theological reading — what the translate demo sets, one
+         word at a time. */
       targetLine: "In the beginning was the Word",
-      contextLabel: "Theological context",
       nodes: ["Augustine", "Chrysostom", "Gregory", "Basil"],
       graph: "Citation network across the Fathers",
     },
+  },
+
+  /* Section 03 — the pinned demonstration. Four states on one surface: search,
+     analyse, translate, connect. Everything under `ui` is product furniture,
+     read as an interface rather than as prose. */
+  workspace: {
+    eyebrow: "Inside the platform",
+    /* The clause break is authored here, not left to the wrap. */
+    title: "Everything you need,\nwithout leaving your research",
+    description:
+      "Search original texts, compare translations, analyze every word, and discover relationships across centuries — all inside one intelligent workspace.",
+    ui: {
+      label: "The Logos Patrum workspace",
+      search: "Search the original texts…",
+      query: "λόγος",
+      filters: ["Greek", "Armenian", "Syriac"],
+      resultsLabel: "Results",
+      resultsCount: "3 of 1,284",
+      results: [
+        { title: "John 1:1", meta: "Alexandria · 4th c." },
+        { title: "Homilies on John", meta: "Chrysostom · 390" },
+        { title: "Against the Arians", meta: "Athanasius · 340" },
+      ],
+      readingLabel: "John 1:1",
+      readingMeta: "Alexandria · 4th century",
+      passage: "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν.",
+      /* Marked in the passage, and the subject of every panel beside it. */
+      word: "λόγος",
+      morphLabel: "Morphology",
+      morph: [
+        { label: "Root", value: "λεγ-" },
+        { label: "Grammar", value: "Noun · 2nd declension" },
+        { label: "Case", value: "Nominative" },
+        { label: "Gender", value: "Masculine" },
+        { label: "Syntax", value: "Subject of ἦν" },
+      ],
+      translateLabel: "Translation",
+      /* Three targets, then the reason behind the reading — the note is the
+         part a dictionary cannot give you. */
+      translations: [
+        { lang: "Greek", text: "Ἐν ἀρχῇ ἦν ὁ λόγος" },
+        { lang: "English", text: "In the beginning was the Word" },
+        { lang: "Arabic", text: "في البدء كان الكلمة" },
+      ],
+      noteLabel: "Theological note",
+      note: "Not “a word” but the pre-existent Word. Chrysostom reads ἀρχή as eternity rather than a point of origin — which is why the article matters.",
+      graphLabel: "Citation network",
+      graphCaption: "Where this verse travels",
+      /* Order matches GRAPH_NODES in the section: concept, passage, concept,
+         father, father, source. */
+      nodes: ["λόγος", "John 1:1", "Eternity", "Athanasius", "Chrysostom", "On the Incarnation"],
+    },
+    steps: [
+      { title: "Search", desc: "Find the passage in its own language, across every witness." },
+      { title: "Analyze", desc: "Open a single word down to its root and its syntax." },
+      { title: "Translate", desc: "Greek, English, Arabic — and the reading behind them." },
+      { title: "Connect", desc: "See who cites the verse, and where it travels next." },
+    ],
   },
 
   why: {
@@ -205,22 +243,59 @@ export const en = {
     },
   },
 
-  filters: {
-    eyebrow: "The visual grammar engine",
-    title: "*Eight live filter categories* that reveal a text's structure at a glance",
+  /* ---------------------------------------------------------------
+     04 · The research library — three rings turning around the mark.
+     `short` is what a phone shows, where the outer ring is a third of
+     its desktop radius; it equals `title` wherever the full name
+     already fits. `meta` and `stats` are the hover card. */
+  library: {
+    eyebrow: "Research library",
+    title: "A living library of *Christian thought*",
     description:
-      "Each word is a rich data element — its type, case, root, and relations. A smart AST rule engine evaluates it in the moment, coloring and linking it visually.",
-    items: [
-      { title: "Instant syntactic & case coloring", desc: "Every noun, verb, and adjective — and every case — in a distinct color. The structure of the sentence in a single glance." },
-      { title: "Relational glow", desc: "Tap a subject and its verb glows at once — learn the rules of ancient Greek by practice, not by memory." },
-      { title: "Long-range dependency arcs", desc: "Curved lines connect a verb to its distant subject — the sentence tree made visible, not imagined." },
-      { title: "Textual criticism tools", desc: "Dagger marks (†) for variant readings across manuscripts, with damaged and restored text shown transparently." },
-      { title: "Rhetorical & stylistic analysis", desc: "Automatic detection of parallelism and chiasmus with matching colors and crossing arrows." },
-      { title: "AI reconstruction with confidence", desc: "Missing parts of a damaged manuscript are proposed by AI with an explicit confidence score (e.g. 94%) — no silent guessing." },
-      { title: "Lexicon links & rare-word badges", desc: "An icon over each term opens BDAG, LSJ, or Lampe, and a badge marks words that appear only once (hapax legomena)." },
-      { title: "Custom rule builder", desc: "Build your own grammatical analysis rule visually and save it — a programmable research environment, no code required." },
+      "Explore centuries of Christian writing through one interconnected research platform. Original languages, Church Fathers, manuscripts, commentaries, councils and the traditions that carry them — joined in a single research experience.",
+    center: { mark: "LP", name: "Logos Patrum" },
+    rings: [
+      {
+        label: "Original languages",
+        items: [
+          { title: "Greek", short: "Greek", meta: "Koine · Patristic", stats: [{ k: "Works", v: "380" }, { k: "Manuscripts", v: "1,280" }] },
+          { title: "Syriac", short: "Syriac", meta: "Peshitta tradition", stats: [{ k: "Works", v: "96" }, { k: "Manuscripts", v: "240" }] },
+          { title: "Latin", short: "Latin", meta: "The Western Fathers", stats: [{ k: "Works", v: "240" }, { k: "Manuscripts", v: "870" }] },
+          { title: "Coptic", short: "Coptic", meta: "Sahidic · Bohairic", stats: [{ k: "Works", v: "74" }, { k: "Manuscripts", v: "190" }] },
+          { title: "Arabic", short: "Arabic", meta: "Christian Arabic", stats: [{ k: "Works", v: "128" }, { k: "Manuscripts", v: "305" }] },
+          { title: "English", short: "English", meta: "Scholarly translation", stats: [{ k: "Translations", v: "900" }, { k: "Reviewed", v: "Every one" }] },
+        ],
+      },
+      {
+        label: "Research sources",
+        items: [
+          { title: "Manuscripts", short: "Manuscripts", meta: "Digitized witnesses", stats: [{ k: "Witnesses", v: "3,400" }, { k: "Traditions", v: "6" }] },
+          { title: "Homilies", short: "Homilies", meta: "Preached commentary", stats: [{ k: "Texts", v: "1,120" }, { k: "Fathers", v: "84" }] },
+          { title: "Letters", short: "Letters", meta: "Correspondence", stats: [{ k: "Texts", v: "940" }, { k: "Fathers", v: "66" }] },
+          { title: "Commentaries", short: "Commentary", meta: "Verse by verse", stats: [{ k: "Texts", v: "680" }, { k: "Books covered", v: "66" }] },
+          { title: "Councils", short: "Councils", meta: "Canons and acts", stats: [{ k: "Councils", v: "21" }, { k: "Canons", v: "540" }] },
+          { title: "Liturgies", short: "Liturgies", meta: "Rites and prayers", stats: [{ k: "Texts", v: "260" }, { k: "Traditions", v: "6" }] },
+        ],
+      },
+      {
+        label: "Church Fathers",
+        items: [
+          { title: "Athanasius", short: "Athanasius", meta: "c. 296–373", stats: [{ k: "Works", v: "21" }, { k: "References", v: "3,120" }, { k: "Collections", v: "19" }] },
+          { title: "Augustine", short: "Augustine", meta: "354–430", stats: [{ k: "Works", v: "46" }, { k: "References", v: "5,640" }, { k: "Collections", v: "27" }] },
+          { title: "Origen", short: "Origen", meta: "c. 185–253", stats: [{ k: "Works", v: "34" }, { k: "References", v: "2,980" }, { k: "Collections", v: "15" }] },
+          { title: "John Chrysostom", short: "Chrysostom", meta: "c. 347–407", stats: [{ k: "Works", v: "58" }, { k: "References", v: "6,410" }, { k: "Collections", v: "31" }] },
+          { title: "Gregory Nazianzen", short: "Nazianzen", meta: "329–390", stats: [{ k: "Works", v: "27" }, { k: "References", v: "2,240" }, { k: "Collections", v: "14" }] },
+          { title: "Basil the Great", short: "Basil", meta: "330–379", stats: [{ k: "Works", v: "24" }, { k: "References", v: "2,110" }, { k: "Collections", v: "13" }] },
+          { title: "Cyril of Alexandria", short: "Cyril", meta: "c. 376–444", stats: [{ k: "Works", v: "31" }, { k: "References", v: "2,760" }, { k: "Collections", v: "16" }] },
+        ],
+      },
     ],
-    more: "And more: historical phonetic (iotacism) alerts, frequency heatmaps, and geographic, historical, and liturgical badges.",
+    stats: [
+      { value: 250, suffix: "+", label: "Church Fathers" },
+      { value: 900, suffix: "+", label: "Works" },
+      { value: 120, suffix: "K+", label: "Cross references" },
+      { value: 6, suffix: "", label: "Languages" },
+    ],
   },
 
   preview: {

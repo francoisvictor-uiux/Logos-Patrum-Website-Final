@@ -7,6 +7,7 @@
  * step there, change it here.
  */
 export const primary = {
+  50: "#F5F7FD",
   100: "#E7EDFA",
   200: "#C9D6F4",
   300: "#A4BAEC",

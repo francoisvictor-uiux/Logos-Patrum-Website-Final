@@ -333,6 +333,39 @@ html[lang="ar"] [class*="tracking-"] {
   letter-spacing: 0;
 }
 
+/* ----------------------------------------------------------
+   Justified body copy.
+
+   Any paragraph that runs past one line is justified in both
+   scripts, so columns of prose close on a straight edge. Centred
+   paragraphs are excluded by their own class — a centred block is
+   a deliberate composition and justifying it would only pull its
+   last line to the margin. A single-line paragraph is unaffected:
+   a line that is also the last line is never stretched.
+
+   Arabic asks for kashida — justification by elongating the
+   connector between letters rather than by opening the word gaps.
+   `text-justify: kashida` is the property for it, and it is
+   declared here for the engines that implement it; Chromium,
+   WebKit and Gecko currently ignore the keyword and fall back to
+   inter-word spacing, which the 1.85 Arabic leading already
+   carries well. The tatweel runs authored into the display
+   headings stay the reliable way to stretch a specific line.
+
+   English gets hyphenation, without which justified text at these
+   measures opens rivers between the words.
+   ---------------------------------------------------------- */
+main p:not([class*="text-center"]) {
+  text-align: justify;
+  text-justify: inter-word;
+}
+html[lang="ar"] main p:not([class*="text-center"]) {
+  text-justify: kashida;
+}
+html[lang="en"] main p:not([class*="text-center"]) {
+  hyphens: auto;
+}
+
 ::selection {
   background: var(--color-ink);
   color: #fff;
@@ -384,6 +417,76 @@ html[lang="ar"] [class*="tracking-"] {
 .dm-chip {
   background: var(--color-chip);
   border-radius: var(--radius-pill);
+}
+
+/* ==========================================================
+   ORBIT — the research library (section 04).
+
+   One arm per capsule, rotating about the ring's centre, with the
+   capsule counter-rotating inside it so the label never tips. Both
+   read the same --a (the capsule's angle on the ring) and --dur
+   (the ring's period); the arm sets them, the capsule inherits.
+
+   The static transform on each element is authored inline, so the
+   ring is correctly laid out before any animation runs — and stays
+   laid out when it never runs at all. The keyframes then take over
+   from that same angle rather than snapping to zero.
+   ========================================================== */
+@keyframes lp-orbit-cw {
+  from {
+    transform: rotate(var(--a));
+  }
+  to {
+    transform: rotate(calc(var(--a) + 360deg));
+  }
+}
+@keyframes lp-orbit-ccw {
+  from {
+    transform: rotate(var(--a));
+  }
+  to {
+    transform: rotate(calc(var(--a) - 360deg));
+  }
+}
+@keyframes lp-counter-cw {
+  from {
+    transform: rotate(calc(-1 * var(--a)));
+  }
+  to {
+    transform: rotate(calc(-1 * var(--a) - 360deg));
+  }
+}
+@keyframes lp-counter-ccw {
+  from {
+    transform: rotate(calc(-1 * var(--a)));
+  }
+  to {
+    transform: rotate(calc(-1 * var(--a) + 360deg));
+  }
+}
+
+.lp-spin {
+  animation-name: var(--spin);
+  animation-duration: var(--dur);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Hovering a capsule holds its own ring and lifts it clear of the
+   others; the remaining two keep turning. The ring itself takes no
+   pointer events (it is a transparent 800px disc), so only a capsule
+   can trigger this. */
+.lp-ring:hover {
+  z-index: 20;
+}
+.lp-ring:hover .lp-spin {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-spin {
+    animation: none;
+  }
 }
 
 /* ==========================================================

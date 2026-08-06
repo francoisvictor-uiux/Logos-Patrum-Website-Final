@@ -5,8 +5,9 @@ import Preloader from "@/components/Preloader";
 import Header from "@/components/Header";
 import Hero from "@/components/sections/Hero";
 import Pillars from "@/components/sections/Pillars";
+import Workspace from "@/components/sections/Workspace";
 import Why from "@/components/sections/Why";
-import Filters from "@/components/sections/Filters";
+import Library from "@/components/sections/Library";
 import Preview from "@/components/sections/Preview";
 import Features from "@/components/sections/Features";
 import Workflow from "@/components/sections/Workflow";
@@ -21,7 +22,6 @@ import Faq from "@/components/sections/Faq";
 import Newsletter from "@/components/sections/Newsletter";
 import FinalCta from "@/components/sections/FinalCta";
 import Footer from "@/components/Footer";
-import HeroIntro from "@/components/sections/HeroIntro";
 
 export default async function LandingPage({
   params,
@@ -42,8 +42,8 @@ export default async function LandingPage({
               different (04) → scale (05) → trust (07) → convert (08+). */}
           <Hero dict={dict} />
           <Pillars dict={dict} />
-          <HeroIntro dict={dict} />
-          <Filters dict={dict} />
+          <Workspace dict={dict} />
+          <Library dict={dict} locale={locale} />
           <Preview dict={dict} />
           <Features dict={dict} />
           <Workflow dict={dict} />

@@ -59,9 +59,58 @@ export function LiveDot({ className }: { className?: string }) {
 }
 
 /* ---------------------------------------------------------------
+   SectionBadge — THE section label. Use this at the top of every
+   section from here on; it is the hero's badge carried forward
+   whole, so the page opens on one object rather than a new pill
+   per section.
+
+   Geometry (do not re-derive it per section): 36px tall pill,
+   1px hairline, 100px radius, 17/4 padding, 8px gap, 10px live
+   point, label 16px / 600 / 0.08em. Arabic zeroes the tracking
+   via the tracking-* rule in globals.css.
+
+   tone="light"  on white or grey — grey chip on a grey hairline
+   tone="dark"   on a primary-blue section — the same pill glazed
+                 into the field: a white wash at 10%, a 25% white
+                 hairline, primary-100 type (11.9:1 on primary-500).
+                 The live point stays orange in both; it is the one
+                 fixed signal on the page.
+   --------------------------------------------------------------- */
+export function SectionBadge({
+  children,
+  tone = "light",
+}: {
+  children: ReactNode;
+  tone?: "light" | "dark";
+}) {
+  return (
+    <div
+      className={cn(
+        "flex min-h-[36px] items-center gap-[8px] rounded-[100px] border px-[17px] py-[4px]",
+        tone === "dark"
+          ? "border-white/25 bg-white/10 backdrop-blur-[2px]"
+          : "border-line-strong bg-chip"
+      )}
+    >
+      <LiveDot className="size-[10px] [&>span]:size-[10px]" />
+      <p
+        dir="auto"
+        className={cn(
+          "text-balance text-center font-sans text-[16px] font-semibold leading-[24px] tracking-[0.08em]",
+          tone === "dark" ? "text-primary-100" : "text-muted-2"
+        )}
+        style={{ fontFeatureSettings: '"swsh"' }}
+      >
+        {children}
+      </p>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------
    Eyebrow — design-guide label: 14px / 600 / 0.12em / primary-500,
-   led by the live dot. Replaces the grey chip as the page-wide
-   eyebrow treatment (Arabic zeroes the tracking via globals.css).
+   led by the live dot. The bare-label variant, for sections that
+   already carry a badge elsewhere; SectionBadge is the default.
    --------------------------------------------------------------- */
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (

@@ -1,221 +1,99 @@
+/* ===============================================================
+   ICONS — Phosphor, duotone, everywhere.
+
+   Every icon on the site comes from @phosphor-icons/react at the
+   duotone weight: one family, one weight, one optical size. The
+   names below are ours, not Phosphor's, so a section asks for
+   "citation" or "network" and this table decides what that looks
+   like — swap an icon here and it changes across the site rather
+   than in one component.
+
+   Imported from the `/ssr` entry, which renders plain SVG with no
+   client context, so these work in server and client components
+   alike. Sized by the caller with `size-*`; coloured by
+   `currentColor`. Phosphor's duotone puts the tinted backdrop at
+   opacity 0.2 under the solid path, which is why nothing here sets
+   a stroke: these are filled marks, not line art.
+   =============================================================== */
+import {
+  ArrowRight,
+  BookOpen,
+  BookOpenText,
+  Books,
+  Brain,
+  CaretCircleLeft,
+  CaretDown,
+  ChartBar,
+  Check,
+  FolderOpen,
+  Globe,
+  Lock,
+  MagnifyingGlass,
+  NotePencil,
+  Quotes,
+  Scan,
+  Scroll,
+  ShareNetwork,
+  ShieldCheck,
+  SquaresFour,
+  Translate,
+  UsersThree,
+} from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 
-type IconProps = React.SVGProps<SVGSVGElement>;
-
-/* Two-tone caret sitting inside the primary CTA buttons. Authored pointing
-   left, which is "forward" in Arabic — mirrored in LTR so it keeps pointing
-   along the reading direction. */
+/* The caret inside the primary CTA buttons. Authored pointing left, which is
+   "forward" in Arabic — mirrored in LTR so it keeps pointing along the reading
+   direction. */
 export function CaretCircle({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 32 32"
-      fill="currentColor"
-      aria-hidden="true"
-      className={cn("ltr:-scale-x-100", className)}
-    >
-      <path
-        opacity="0.2"
-        d="M28 16C28 18.3734 27.2962 20.6935 25.9776 22.6668C24.6591 24.6402 22.7849 26.1783 20.5922 27.0866C18.3995 27.9948 15.9867 28.2324 13.6589 27.7694C11.3312 27.3064 9.19295 26.1635 7.51472 24.4853C5.83649 22.8071 4.6936 20.6689 4.23058 18.3411C3.76756 16.0133 4.0052 13.6005 4.91345 11.4078C5.8217 9.21509 7.35977 7.34094 9.33316 6.02236C11.3066 4.70379 13.6266 4 16 4C19.1826 4 22.2349 5.26428 24.4853 7.51472C26.7357 9.76516 28 12.8174 28 16Z"
-      />
-      <path d="M16 3C13.4288 3 10.9154 3.76244 8.77759 5.1909C6.63975 6.61935 4.97351 8.64968 3.98957 11.0251C3.00563 13.4006 2.74819 16.0144 3.2498 18.5362C3.75141 21.0579 4.98953 23.3743 6.80762 25.1924C8.6257 27.0105 10.9421 28.2486 13.4638 28.7502C15.9856 29.2518 18.5995 28.9944 20.9749 28.0104C23.3503 27.0265 25.3807 25.3603 26.8091 23.2224C28.2376 21.0846 29 18.5712 29 16C28.9964 12.5533 27.6256 9.24882 25.1884 6.81163C22.7512 4.37445 19.4467 3.00364 16 3ZM16 27C13.8244 27 11.6977 26.3549 9.88873 25.1462C8.07979 23.9375 6.66989 22.2195 5.83733 20.2095C5.00477 18.1995 4.78693 15.9878 5.21137 13.854C5.63581 11.7202 6.68345 9.7602 8.22183 8.22183C9.76021 6.68345 11.7202 5.6358 13.854 5.21136C15.9878 4.78692 18.1995 5.00476 20.2095 5.83733C22.2195 6.66989 23.9375 8.07979 25.1462 9.88873C26.3549 11.6977 27 13.8244 27 16C26.9967 18.9164 25.8367 21.7123 23.7745 23.7745C21.7123 25.8367 18.9164 26.9967 16 27ZM18.7075 11.7075L14.4138 16L18.7075 20.2925C18.8004 20.3854 18.8741 20.4957 18.9244 20.6171C18.9747 20.7385 19.0006 20.8686 19.0006 21C19.0006 21.1314 18.9747 21.2615 18.9244 21.3829C18.8741 21.5043 18.8004 21.6146 18.7075 21.7075C18.6146 21.8004 18.5043 21.8741 18.3829 21.9244C18.2615 21.9747 18.1314 22.0006 18 22.0006C17.8686 22.0006 17.7385 21.9747 17.6171 21.9244C17.4957 21.8741 17.3854 21.8004 17.2925 21.7075L12.2925 16.7075C12.1995 16.6146 12.1258 16.5043 12.0754 16.3829C12.0251 16.2615 11.9992 16.1314 11.9992 16C11.9992 15.8686 12.0251 15.7385 12.0754 15.6171C12.1258 15.4957 12.1995 15.3854 12.2925 15.2925L17.2925 10.2925C17.3854 10.1996 17.4957 10.1259 17.6171 10.0756C17.7385 10.0253 17.8686 9.99944 18 9.99944C18.1314 9.99944 18.2615 10.0253 18.3829 10.0756C18.5043 10.1259 18.6146 10.1996 18.7075 10.2925C18.8004 10.3854 18.8741 10.4957 18.9244 10.6171C18.9747 10.7385 19.0006 10.8686 19.0006 11C19.0006 11.1314 18.9747 11.2615 18.9244 11.3829C18.8741 11.5043 18.8004 11.6146 18.7075 11.7075Z" />
-    </svg>
+    <CaretCircleLeft weight="duotone" aria-hidden className={cn("ltr:-scale-x-100", className)} />
   );
 }
 
-/* Phosphor duotone set (github.com/phosphor-icons) — the tinted backdrop path
-   carries opacity 0.2, exactly like CaretCircle above. Sized by the caller. */
-function Duo({ children, ...props }: IconProps & { children: React.ReactNode }) {
-  return (
-    <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" {...props}>
-      {children}
-    </svg>
-  );
-}
-
+/* The hero's capability row asks for these four by name from the dictionary. */
 export const duotone = {
-  magnifyingGlass: (p: IconProps) => (
-    <Duo {...p}>
-      <path opacity="0.2" d="M192,112a80,80,0,1,1-80-80A80,80,0,0,1,192,112Z" />
-      <path d="M229.66,218.34,179.6,168.28a88.21,88.21,0,1,0-11.32,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z" />
-    </Duo>
-  ),
-  bookOpenText: (p: IconProps) => (
-    <Duo {...p}>
-      <path opacity="0.2" d="M232,56V200H160a32,32,0,0,0-32,32V88a32,32,0,0,1,32-32Z" />
-      <path d="M232,48H160a40,40,0,0,0-32,16A40,40,0,0,0,96,48H24a8,8,0,0,0-8,8V200a8,8,0,0,0,8,8H96a24,24,0,0,1,24,24,8,8,0,0,0,16,0,24,24,0,0,1,24-24h72a8,8,0,0,0,8-8V56A8,8,0,0,0,232,48ZM96,192H32V64H96a24,24,0,0,1,24,24V200A39.81,39.81,0,0,0,96,192Zm128,0H160a39.81,39.81,0,0,0-24,8V88a24,24,0,0,1,24-24h64ZM160,88h40a8,8,0,0,1,0,16H160a8,8,0,0,1,0-16Zm48,40a8,8,0,0,1-8,8H160a8,8,0,0,1,0-16h40A8,8,0,0,1,208,128Zm0,32a8,8,0,0,1-8,8H160a8,8,0,0,1,0-16h40A8,8,0,0,1,208,160Z" />
-    </Duo>
-  ),
-  brain: (p: IconProps) => (
-    <Duo {...p}>
-      <path opacity="0.2" d="M240,124a48,48,0,0,1-32,45.27h0V176a40,40,0,0,1-80,0,40,40,0,0,1-80,0v-6.73h0a48,48,0,0,1,0-90.54V72a40,40,0,0,1,80,0,40,40,0,0,1,80,0v6.73A48,48,0,0,1,240,124Z" />
-      <path d="M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z" />
-    </Duo>
-  ),
-  books: (p: IconProps) => (
-    <Duo {...p}>
-      <path opacity="0.2" d="M48,72h64V184H48ZM190.64,38.39a8,8,0,0,0-9.5-6.21l-46.81,10a8.07,8.07,0,0,0-6.15,9.57L139.79,107l62.46-13.42Z" />
-      <path d="M231.65,194.55,198.46,36.75a16,16,0,0,0-19-12.39L132.65,34.42a16.08,16.08,0,0,0-12.3,19l33.19,157.8A16,16,0,0,0,169.16,224a16.25,16.25,0,0,0,3.38-.36l46.81-10.06A16.09,16.09,0,0,0,231.65,194.55ZM136,50.15c0-.06,0-.09,0-.09l46.8-10,3.33,15.87L139.33,66Zm6.62,31.47,46.82-10.05,3.34,15.9L146,97.53Zm6.64,31.57,46.82-10.06,13.3,63.24-46.82,10.06ZM216,197.94l-46.8,10-3.33-15.87L212.67,182,216,197.85C216,197.91,216,197.94,216,197.94ZM104,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V48A16,16,0,0,0,104,32ZM56,48h48V64H56Zm0,32h48v96H56Zm48,128H56V192h48v16Z" />
-    </Duo>
-  ),
+  magnifyingGlass: MagnifyingGlass,
+  bookOpenText: BookOpenText,
+  brain: Brain,
+  books: Books,
 } as const;
 
 export type DuotoneName = keyof typeof duotone;
 
-export function DuotoneIcon({
-  name,
-  className,
-}: {
-  name: DuotoneName;
-  className?: string;
-}) {
+export function DuotoneIcon({ name, className }: { name: DuotoneName; className?: string }) {
   const Cmp = duotone[name];
-  return <Cmp className={className} />;
+  return <Cmp weight="duotone" aria-hidden className={className} />;
 }
 
-function Svg({ children, ...props }: IconProps & { children: React.ReactNode }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      {...props}
-    >
-      {children}
-    </svg>
-  );
-}
-
+/* The page-wide set. Names are the site's vocabulary; the right-hand side is
+   the Phosphor mark that carries it. */
 export const icons = {
-  translate: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="M4 5h8M8 3v2m3 0c-1 4-3.5 7-7 9m1.5-5c1.2 2.6 3.3 4.6 6 5.6" />
-      <path d="m12.5 21 4.5-9 4.5 9m-7.5-3h6" />
-    </Svg>
-  ),
-  translation: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="M7 8h7M10.5 6v2m2 0c-.8 3-2.7 5.3-5.5 7" />
-      <path d="M9 15c.9-1 1.7-2.1 2.3-3.3M13 18l3-6 3 6m-5-2h4" />
-      <rect x="2.5" y="2.5" width="19" height="19" rx="3" />
-    </Svg>
-  ),
-  greek: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="M5 4h14M6.5 4v13a3 3 0 0 0 3 3M17.5 4v13a3 3 0 0 1-3 3" />
-      <path d="M12 8v12" />
-    </Svg>
-  ),
-  search: (p: IconProps) => (
-    <Svg {...p}>
-      <circle cx="11" cy="11" r="7" />
-      <path d="m20 20-3.5-3.5" />
-    </Svg>
-  ),
-  citation: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="M9.5 8C7 8.5 5.5 10.5 5.5 13.5V16h4v-4h-2c0-1.6.9-2.7 2-3.2zM18.5 8c-2.5.5-4 2.5-4 5.5V16h4v-4h-2c0-1.6.9-2.7 2-3.2z" />
-    </Svg>
-  ),
-  workspace: (p: IconProps) => (
-    <Svg {...p}>
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <path d="M3 9h18M10 9v12" />
-    </Svg>
-  ),
-  notes: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="m16 3 5 5-11 11H5v-5z" />
-      <path d="m13.5 5.5 5 5" />
-    </Svg>
-  ),
-  collections: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="M3 7a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-    </Svg>
-  ),
-  reading: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="M12 6c-1.8-1.6-4.2-2.3-7-2v14c2.8-.3 5.2.4 7 2 1.8-1.6 4.2-2.3 7-2V4c-2.8-.3-5.2.4-7 2Z" />
-      <path d="M12 6v14" />
-    </Svg>
-  ),
-  check: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="m4.5 12.5 5 5 10-11" />
-    </Svg>
-  ),
-  chevron: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="m6 9 6 6 6-6" />
-    </Svg>
-  ),
-  arrow: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="M4 12h16m0 0-6-6m6 6-6 6" />
-    </Svg>
-  ),
-  globe: (p: IconProps) => (
-    <Svg {...p}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M3 12h18M12 3c2.5 2.4 3.8 5.5 3.8 9s-1.3 6.6-3.8 9c-2.5-2.4-3.8-5.5-3.8-9s1.3-6.6 3.8-9Z" />
-    </Svg>
-  ),
-  analyze: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="M4 19h16M6 19V9m4 10V5m4 14v-6m4 6V8" />
-      <circle cx="18" cy="8" r="1.4" />
-      <circle cx="14" cy="13" r="1.4" />
-    </Svg>
-  ),
-  shield: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" />
-      <path d="m9 12 2 2 4-4" />
-    </Svg>
-  ),
-  lock: (p: IconProps) => (
-    <Svg {...p}>
-      <rect x="5" y="11" width="14" height="10" rx="2" />
-      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-      <path d="M12 15v2" />
-    </Svg>
-  ),
-  users: (p: IconProps) => (
-    <Svg {...p}>
-      <circle cx="9" cy="8" r="3.2" />
-      <path d="M3.5 20a5.5 5.5 0 0 1 11 0" />
-      <path d="M16 5.5a3 3 0 0 1 0 5.6M17 20a5.5 5.5 0 0 0-3-4.9" />
-    </Svg>
-  ),
-  network: (p: IconProps) => (
-    <Svg {...p}>
-      <circle cx="12" cy="5" r="2.2" />
-      <circle cx="5" cy="16" r="2.2" />
-      <circle cx="19" cy="16" r="2.2" />
-      <path d="M10.4 6.8 6.4 14m5.4-7.1 4 7.1M7.2 16h9.6" />
-    </Svg>
-  ),
-  scan: (p: IconProps) => (
-    <Svg {...p}>
-      <path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2" />
-      <path d="M4 12h16" />
-    </Svg>
-  ),
+  translate: Translate,
+  translation: Translate,
+  /* Ancient text as an object — the closest mark to a manuscript. */
+  greek: Scroll,
+  search: MagnifyingGlass,
+  citation: Quotes,
+  /* Panels, which is what the workspace is. */
+  workspace: SquaresFour,
+  notes: NotePencil,
+  collections: FolderOpen,
+  reading: BookOpen,
+  check: Check,
+  chevron: CaretDown,
+  arrow: ArrowRight,
+  globe: Globe,
+  analyze: ChartBar,
+  shield: ShieldCheck,
+  lock: Lock,
+  users: UsersThree,
+  network: ShareNetwork,
+  scan: Scan,
 } as const;
 
 export type IconName = keyof typeof icons;
 
-export function Icon({
-  name,
-  className,
-}: {
-  name: IconName;
-  className?: string;
-}) {
+export function Icon({ name, className }: { name: IconName; className?: string }) {
   const Cmp = icons[name];
-  return <Cmp className={className} />;
+  return <Cmp weight="duotone" aria-hidden className={className} />;
 }
